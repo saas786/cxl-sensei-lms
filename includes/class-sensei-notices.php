@@ -64,6 +64,9 @@ class Sensei_Notices {
 					'frameborder'     => array(),
 					'allowfullscreen' => array(),
 				),
+				'small' => array(
+					'data-post-status' => array(),
+				),
 			)
 		);
 
