@@ -132,7 +132,7 @@ function sensei_start_course_form( $course_id ) {
 					onclick="document.getElementById('sensei_start_course_form').submit()"
 				>
 					<iron-icon icon="lumo:arrow-right" slot="suffix"></iron-icon>
-					<?php esc_html_e( 'Start taking this Course', 'sensei-lms' ); ?>
+					<?php esc_html_e( 'Take This Course', 'sensei-lms' ); ?>
 				</vaadin-button>
 			</form>
 			<?php
