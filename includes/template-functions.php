@@ -63,11 +63,21 @@ function sensei_start_course_form( $course_id ) {
 	if ( $prerequisite_complete ) {
 		wp_enqueue_script( 'sensei-stop-double-submission' );
 
-		?><form method="POST" action="<?php echo esc_url( get_permalink( $course_id ) ); ?>">
+		?><form id="sensei_start_course_form" method="POST" action="<?php echo esc_url( get_permalink( $course_id ) ); ?>">
 
 				<input type="hidden" name="<?php echo esc_attr( 'woothemes_sensei_start_course_noonce' ); ?>" id="<?php echo esc_attr( 'woothemes_sensei_start_course_noonce' ); ?>" value="<?php echo esc_attr( wp_create_nonce( 'woothemes_sensei_start_course_noonce' ) ); ?>" />
+				<input type="hidden" name="course_start" value="1"/>
 
-				<span><input name="course_start" type="submit" class="course-start sensei-stop-double-submission" value="<?php esc_html_e( 'Take This Course', 'sensei-lms' ); ?>"/></span>
+				<vaadin-button
+					name="course_start"
+					type="submit"
+					class="course-start sensei-stop-double-submission"
+					theme="primary"
+					onclick="document.getElementById('sensei_start_course_form').submit()"
+				>
+					<iron-icon icon="lumo:arrow-right" slot="suffix"></iron-icon>
+					<?php esc_html_e( 'Take This Course', 'sensei-lms' ); ?>
+				</vaadin-button>
 
 			</form>
 			<?php

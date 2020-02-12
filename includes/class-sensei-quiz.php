@@ -1787,47 +1787,66 @@ class Sensei_Quiz {
 		wp_enqueue_script( 'sensei-stop-double-submission' );
 		?>
 
-		<div class="sensei-quiz-actions">
-			<?php if ( ! $is_quiz_completed ) : ?>
-				<div class="sensei-quiz-actions-primary wp-block-buttons">
-					<div class="sensei-quiz-action wp-block-button">
-						<button
-							type="submit"
-							name="quiz_complete"
-							form="sensei-quiz-form"
-							class="wp-block-button__link button quiz-submit complete sensei-stop-double-submission"
-							style="<?php echo esc_attr( $button_inline_styles ); ?>"
-						>
-							<?php esc_attr_e( 'Complete', 'sensei-lms' ); ?>
-						</button>
+		<input id="cxl_sensei_quiz_submit_name" type="hidden" />
+		<?php if ( ! $is_quiz_completed ) : ?>
+			<input type="hidden" name="woothemes_sensei_complete_quiz_nonce" form="sensei-quiz-form" id="woothemes_sensei_complete_quiz_nonce" value="<?php echo esc_attr( wp_create_nonce( 'woothemes_sensei_complete_quiz_nonce' ) ); ?>" />
+		<?php endif ?>
+		<?php if ( $is_reset_allowed ) : ?>
+			<input type="hidden" name="woothemes_sensei_reset_quiz_nonce" form="sensei-quiz-form" id="woothemes_sensei_reset_quiz_nonce" value="<?php echo esc_attr( wp_create_nonce( 'woothemes_sensei_reset_quiz_nonce' ) ); ?>" />
+		<?php endif ?>
+		<?php if ( ! $is_quiz_completed ) : ?>
+			<input type="hidden" name="woothemes_sensei_save_quiz_nonce" form="sensei-quiz-form" id="woothemes_sensei_save_quiz_nonce" value="<?php echo esc_attr( wp_create_nonce( 'woothemes_sensei_save_quiz_nonce' ) ); ?>" />
+		<?php endif ?>
 
-						<input type="hidden" name="woothemes_sensei_complete_quiz_nonce" form="sensei-quiz-form" id="woothemes_sensei_complete_quiz_nonce" value="<?php echo esc_attr( wp_create_nonce( 'woothemes_sensei_complete_quiz_nonce' ) ); ?>" />
-					</div>
-				</div>
-			<?php endif ?>
+		<?php if ( ! $is_quiz_completed ) : ?>
+			<vaadin-button
+					type="submit"
+					name="quiz_complete"
+					form="sensei-quiz-form"
+					class="wp-block-button__link button quiz-submit complete sensei-stop-double-submission"
+					theme="primary"
+			>
+				<iron-icon icon="lumo:arrow-right" slot="suffix"></iron-icon>
+				<?php esc_html_e( 'Complete Quiz', 'sensei-lms' ); ?>
+			</vaadin-button>
+		<?php endif ?>
 
-			<div class="sensei-quiz-actions-secondary">
-				<?php if ( $is_reset_allowed ) : ?>
-					<div class="sensei-quiz-action">
-						<button type="submit" name="quiz_reset" form="sensei-quiz-form" class="quiz-submit reset sensei-stop-double-submission">
-							<?php esc_attr_e( 'Reset', 'sensei-lms' ); ?>
-						</button>
+		<?php if ( $is_reset_allowed ) : ?>
+			<vaadin-button
+					type="submit"
+					name="quiz_reset"
+					form="sensei-quiz-form"
+					class="quiz-submit reset sensei-stop-double-submission"
+					theme="tertiary contrast"
+			>
+				<iron-icon icon="lumo:reload" slot="suffix"></iron-icon>
+				<?php esc_html_e( 'Reset Quiz', 'sensei-lms' ); ?>
+			</vaadin-button>
+		<?php endif ?>
 
-						<input type="hidden" name="woothemes_sensei_reset_quiz_nonce" form="sensei-quiz-form" id="woothemes_sensei_reset_quiz_nonce" value="<?php echo esc_attr( wp_create_nonce( 'woothemes_sensei_reset_quiz_nonce' ) ); ?>" />
-					</div>
-				<?php endif ?>
+		<?php if ( ! $is_quiz_completed ) : ?>
+			<vaadin-button
+					type="submit"
+					name="quiz_save"
+					form="sensei-quiz-form"
+					class="quiz-submit save sensei-stop-double-submission"
+					theme="contrast"
+			>
+				<iron-icon icon="lumo:arrow-down" slot="suffix"></iron-icon>
+				<?php esc_html_e( 'Save Quiz', 'sensei-lms' ); ?>
+			</vaadin-button>
+		<?php endif ?>
 
-				<?php if ( ! $is_quiz_completed ) : ?>
-					<div class="sensei-quiz-action">
-						<button type="submit" name="quiz_save" form="sensei-quiz-form" class="quiz-submit save sensei-stop-double-submission">
-							<?php esc_attr_e( 'Save', 'sensei-lms' ); ?>
-						</button>
-
-						<input type="hidden" name="woothemes_sensei_save_quiz_nonce" form="sensei-quiz-form" id="woothemes_sensei_save_quiz_nonce" value="<?php echo esc_attr( wp_create_nonce( 'woothemes_sensei_save_quiz_nonce' ) ); ?>" />
-					</div>
-				<?php endif ?>
-			</div>
-		</div>
+		<script>
+			((container, d) => {
+				d.querySelectorAll(`${container} > form vaadin-button[type="submit"]`).forEach((el) => {
+					el.onclick = (e) => {
+						d.getElementById('cxl_sensei_quiz_submit_name').setAttribute('name', e.target.getAttribute('name'));
+						d.querySelector(`${container} > form`).submit();
+					};
+				});
+			})('.quiz-questions', document);
+		</script>
 		<?php
 
 	}
