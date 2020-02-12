@@ -836,7 +836,7 @@ class Sensei_Frontend {
 
 			if ( '' != $lesson_video_embed ) {
 				?>
-				<div class="video <?php echo esc_attr( self::VIDEO_EMBED_CLASS ); ?>"><?php echo wp_kses( $lesson_video_embed, $this->allowed_html ); ?></div>
+				<div class="video <?php echo esc_attr( self::VIDEO_EMBED_CLASS ); ?>"><?php echo $lesson_video_embed; ?></div>
 				<?php
 			}
 		}
