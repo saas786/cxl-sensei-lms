@@ -30,6 +30,8 @@ function course_single_lessons() {
 		return;
 	}
 
+	add_filter( 'post_class', [ 'Sensei_Lesson', 'single_course_lessons_classes' ] );
+
 	// load backwards compatible template name if it exists in the users theme
 	$located_template = locate_template( Sensei()->template_url . 'single-course/course-lessons.php' );
 	if ( $located_template ) {
@@ -41,8 +43,9 @@ function course_single_lessons() {
 
 	Sensei_Templates::get_template( 'single-course/lessons.php' );
 
-} // End course_single_lessons()
+	remove_filter( 'post_class', [ 'Sensei_Lesson', 'single_course_lessons_classes' ] );
 
+}
 
 	 /**
 	  * lesson_single_meta function.
@@ -56,7 +59,6 @@ function lesson_single_meta() {
 	sensei_the_single_lesson_meta();
 
 } // End lesson_single_meta()
-
 
 	 /**
 	  * quiz_questions function.

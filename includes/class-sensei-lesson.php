@@ -3752,7 +3752,7 @@ class Sensei_Lesson {
 	/**
 	 * Filter the classes for lessons on the single course page.
 	 *
-	 * Adds the nesecary classes depending on the user data
+	 * Adds the necessary classes depending on the user data
 	 *
 	 * @since 1.9.0
 	 * @param array $classes
@@ -3760,35 +3760,29 @@ class Sensei_Lesson {
 	 */
 	public static function single_course_lessons_classes( $classes ) {
 
-		if ( is_singular( 'course' ) ) {
+		global $post;
+		$course_id = $post->ID;
 
-			global $post;
-			$course_id = $post->ID;
+		$lesson_classes = array( 'course', 'post' );
+		if ( is_user_logged_in() ) {
 
-			$lesson_classes = array( 'course', 'post' );
-			if ( is_user_logged_in() ) {
+			// Check if Lesson is complete
+			$single_lesson_complete = Sensei_Utils::user_completed_lesson( get_the_ID(), get_current_user_id() );
+			if ( $single_lesson_complete ) {
 
-				// Check if Lesson is complete
-				$single_lesson_complete = Sensei_Utils::user_completed_lesson( get_the_ID(), get_current_user_id() );
-				if ( $single_lesson_complete ) {
-
-					$lesson_classes[] = 'lesson-completed';
+				$lesson_classes[] = 'completed';
 
 				} // End If Statement
 			} // End If Statement
 
-			$is_user_taking_course = Sensei_Utils::user_started_course( $course_id, get_current_user_id() );
-			if ( Sensei_Utils::is_preview_lesson( get_the_ID() ) && ! $is_user_taking_course ) {
+		$is_user_taking_course = Sensei_Course::is_user_enrolled( $course_id );
+		if ( Sensei_Utils::is_preview_lesson( get_the_ID() ) && ! $is_user_taking_course ) {
 
-				$lesson_classes[] = 'lesson-preview';
-
-			}
-
-			$classes = array_merge( $classes, $lesson_classes );
+			$lesson_classes[] = 'preview';
 
 		}
 
-		return $classes;
+		return array_merge( $classes, $lesson_classes );
 
 	}//end single_course_lessons_classes()
 
