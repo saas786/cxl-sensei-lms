@@ -3344,9 +3344,11 @@ class Sensei_Lesson {
 				$show_questions = (int) get_post_meta( $quiz_id, '_show_questions', true );
 
 				if ( $show_questions ) {
-
-					// Get random set of array keys from selected questions array
-					$selected_questions = array_rand( $questions_array, $show_questions );
+					// Get random set of array keys from selected questions array.
+					$selected_questions = array_rand(
+						$questions_array,
+						$show_questions > count( $questions_array ) ? count( $questions_array ) : $show_questions
+					);
 
 					// Loop through all questions and pick the the ones to be shown based on the random key selection.
 					$questions = [];
