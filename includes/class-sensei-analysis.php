@@ -135,7 +135,7 @@ class Sensei_Analysis {
 			$user_id = intval( $_GET['user_id'] );
 		}
 
-		$this->check_course_lesson( $course_id, $lesson_id );
+		$this->check_course_lesson( $course_id, $lesson_id, $user_id );
 
 		$type = isset( $_GET['view'] ) ? esc_html( $_GET['view'] ) : false;
 
@@ -596,7 +596,7 @@ class Sensei_Analysis {
 			}
 			$type = isset( $_GET['view'] ) ? esc_html( $_GET['view'] ) : false;
 
-			$this->check_course_lesson( $course_id, $lesson_id );
+			$this->check_course_lesson( $course_id, $lesson_id, $user_id );
 
 			// Set up default properties for logging an event.
 			$event_properties = [ 'view' => '' ];
@@ -653,8 +653,9 @@ class Sensei_Analysis {
 	 *
 	 * @param int $course_id Course post ID.
 	 * @param int $lesson_id Lesson post ID.
+	 * @param int $user_id   User ID.
 	 */
-	private function check_course_lesson( $course_id, $lesson_id ) {
+	private function check_course_lesson( $course_id, $lesson_id, $user_id ) {
 		if (
 			$course_id
 			&& (
@@ -673,6 +674,15 @@ class Sensei_Analysis {
 			)
 		) {
 			wp_die( esc_html__( 'Invalid lesson', 'sensei-lms' ), 404 );
+		}
+
+		if (
+			$user_id
+			&& (
+				! in_array( $user_id, Sensei()->teacher->get_learner_ids_for_courses_with_edit_permission(), true )
+			)
+		) {
+			wp_die( esc_html__( 'Invalid user', 'sensei-lms' ), 404 );
 		}
 	}
 
