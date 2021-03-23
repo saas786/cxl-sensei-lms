@@ -208,6 +208,8 @@ class Sensei_Quiz {
 		// remove the hook as it should only fire once per click
 		remove_action( 'sensei_single_quiz_content_inside_before', 'user_save_quiz_answers_listener' );
 
+		wp_safe_redirect( get_permalink() );
+
 	}
 
 	/**
@@ -439,6 +441,9 @@ class Sensei_Quiz {
 		);
 
 		self::submit_answers_for_grading( $answers, $_FILES, $lesson_id, $user_id );
+
+		// @todo verify if it still applies.
+		// wp_safe_redirect( get_permalink() );
 
 		// Redirect to the start of the quiz.
 		wp_safe_redirect(
