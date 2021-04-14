@@ -130,7 +130,7 @@ get_sensei_header();
 
 		</section>
 
-	<?php endif; // user can view lesson ?>
+	<?php endif; ?>
 
 	<?php
 

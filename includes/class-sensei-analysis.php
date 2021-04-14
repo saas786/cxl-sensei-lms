@@ -40,8 +40,8 @@ class Sensei_Analysis {
 			add_action( 'admin_init', array( $this, 'report_download_page' ) );
 
 			add_filter( 'user_search_columns', array( $this, 'user_search_columns_filter' ), 10, 3 );
-		} // End If Statement
-	} // End __construct()
+		}
+	}
 
 
 	/**
@@ -56,7 +56,7 @@ class Sensei_Analysis {
 			add_submenu_page( 'sensei', __( 'Analysis', 'sensei-lms' ), __( 'Analysis', 'sensei-lms' ), 'manage_sensei_grades', 'sensei_analysis', array( $this, 'analysis_page' ) );
 		}
 
-	} // End analysis_admin_menu()
+	}
 
 	/**
 	 * enqueue_styles function.
@@ -70,7 +70,7 @@ class Sensei_Analysis {
 
 		wp_enqueue_style( 'sensei-settings-api', Sensei()->plugin_url . 'assets/css/settings.css', '', Sensei()->version );
 
-	} // End enqueue_styles()
+	}
 
 	/**
 	 * load_data_table_files loads required files for Analysis
@@ -90,8 +90,8 @@ class Sensei_Analysis {
 		);
 		foreach ( $classes_to_load as $class_file ) {
 			Sensei()->load_class( $class_file );
-		} // End For Loop
-	} // End load_data_table_files()
+		}
+	}
 
 	/**
 	 * load_data_object creates new instance of class
@@ -111,7 +111,7 @@ class Sensei_Analysis {
 		}
 		$sensei_analysis_object->prepare_items();
 		return $sensei_analysis_object;
-	} // End load_data_object()
+	}
 
 	/**
 	 * analysis_page function.
@@ -154,8 +154,8 @@ class Sensei_Analysis {
 		} else {
 			// Overview of all Learners, all Courses, or all Lessons
 			$this->analysis_default_view( $type );
-		} // End If Statement
-	} // End analysis_page()
+		}
+	}
 
 	/**
 	 * Default view for analysis, showing an overview of all Learners, Courses and Lessons
@@ -178,7 +178,7 @@ class Sensei_Analysis {
 				do_action( 'sensei_analysis_before_stats_boxes' );
 				foreach ( $sensei_analysis_overview->stats_boxes() as $key => $value ) {
 					$this->render_stats_box( esc_html( $key ), esc_html( $value ) );
-				} // End For Loop
+				}
 				do_action( 'sensei_analysis_after_stats_boxes' );
 				?>
 			</div>
@@ -192,7 +192,7 @@ class Sensei_Analysis {
 		<?php
 		do_action( 'analysis_wrapper_container', 'bottom' );
 		do_action( 'analysis_after_container' );
-	} // End analysis_default_view()
+	}
 
 	/**
 	 * An individual users' profile view for analysis, showing their Courses
@@ -221,7 +221,7 @@ class Sensei_Analysis {
 		<?php
 		do_action( 'analysis_wrapper_container', 'bottom' );
 		do_action( 'analysis_after_container' );
-	} // End analysis_user_profile_view()
+	}
 
 	/**
 	 * An individual Course view for analysis, showing the Courses Lessons
@@ -250,7 +250,7 @@ class Sensei_Analysis {
 		<?php
 		do_action( 'analysis_wrapper_container', 'bottom' );
 		do_action( 'analysis_after_container' );
-	} // End analysis_course_view()
+	}
 
 	/**
 	 * An individual Course view for analysis, showing a specific Learners Lessons
@@ -280,7 +280,7 @@ class Sensei_Analysis {
 		<?php
 		do_action( 'analysis_wrapper_container', 'bottom' );
 		do_action( 'analysis_after_container' );
-	} // End analysis_user_course_view()
+	}
 
 	/**
 	 * An individual Course view for analysis, showing all the Learners
@@ -309,7 +309,7 @@ class Sensei_Analysis {
 		<?php
 		do_action( 'analysis_wrapper_container', 'bottom' );
 		do_action( 'analysis_after_container' );
-	} // End analysis_course_users_view()
+	}
 
 	/**
 	 * An individual Lesson view for analysis, showing all the Learners
@@ -338,7 +338,7 @@ class Sensei_Analysis {
 		<?php
 		do_action( 'analysis_wrapper_container', 'bottom' );
 		do_action( 'analysis_after_container' );
-	} // End analysis_lesson_users_view()
+	}
 
 	/**
 	 * render_stats_box outputs stats boxes
@@ -357,7 +357,7 @@ class Sensei_Analysis {
 			</div>
 		</div>
 		<?php
-	} // End render_stats_box()
+	}
 
 	/**
 	 * analysis_headers outputs analysis general headers
@@ -371,7 +371,7 @@ class Sensei_Analysis {
 		$this->$function();
 		do_action( 'sensei_analysis_after_headers' );
 
-	} // End analysis_headers()
+	}
 
 	/**
 	 * wrapper_container wrapper for analysis area
@@ -389,8 +389,8 @@ class Sensei_Analysis {
 			?>
 			</div><!--/#woothemes-sensei-->
 			<?php
-		} // End If Statement
-	} // End wrapper_container()
+		}
+	}
 
 	/**
 	 * Default nav area for Analysis, overview of Learners, Courses and Lessons
@@ -406,7 +406,7 @@ class Sensei_Analysis {
 				<?php echo wp_kses_post( apply_filters( 'sensei_analysis_nav_title', $title ) ); ?>
 			</h1>
 		<?php
-	} // End analysis_default_nav()
+	}
 
 	/**
 	 * Nav area for Analysis of a specific User profile
@@ -432,11 +432,11 @@ class Sensei_Analysis {
 			$user_name = Sensei_Learner::get_full_name( $user_id );
 			$title    .= sprintf( '&nbsp;&nbsp;<span class="user-title">&gt;&nbsp;&nbsp;<a href="%s">%s</a></span>', $url, $user_name );
 
-		} // End If Statement
+		}
 		?>
 			<h1><?php echo wp_kses_post( apply_filters( 'sensei_analysis_nav_title', $title ) ); ?></h1>
 		<?php
-	} // End analysis_user_profile_nav()
+	}
 
 	/**
 	 * Nav area for Analysis of a specific Course and its Lessons, specific to a User
@@ -460,7 +460,7 @@ class Sensei_Analysis {
 			$user_name = Sensei_Learner::get_full_name( $user_id );
 			$title    .= sprintf( '&nbsp;&nbsp;<span class="user-title">&gt;&nbsp;&nbsp;<a href="%s">%s</a></span>', $url, $user_name );
 			$title    .= sprintf( '&nbsp;&nbsp;<span class="user-title">&gt;&nbsp;&nbsp;<a href="%s">%s</a></span>', esc_url( $url ), $user_data->display_name );
-		} // End If Statement
+		}
 		if ( isset( $_GET['course_id'] ) ) {
 			$course_id = intval( $_GET['course_id'] );
 			$url       = add_query_arg(
@@ -475,7 +475,7 @@ class Sensei_Analysis {
 		?>
 			<h1><?php echo wp_kses_post( apply_filters( 'sensei_analysis_nav_title', $title ) ); ?></h1>
 		<?php
-	} // End analysis_user_course_nav()
+	}
 
 	/**
 	 * Nav area for Analysis of a specific Course and displaying its Lessons
@@ -500,7 +500,7 @@ class Sensei_Analysis {
 		?>
 			<h1><?php echo wp_kses_post( apply_filters( 'sensei_analysis_nav_title', $title ) ); ?></h1>
 		<?php
-	} // End analysis_course_nav()
+	}
 
 	/**
 	 * Nav area for Analysis of a specific Course displaying its Users
@@ -525,7 +525,7 @@ class Sensei_Analysis {
 		?>
 			<h1><?php echo wp_kses_post( apply_filters( 'sensei_analysis_nav_title', $title ) ); ?></h1>
 		<?php
-	} // End analysis_course_users_nav()
+	}
 
 	/**
 	 * Nav area for Analysis of a specific Lesson displaying its Users
@@ -559,7 +559,7 @@ class Sensei_Analysis {
 		?>
 			<h1><?php echo wp_kses_post( apply_filters( 'sensei_analysis_nav_title', $title ) ); ?></h1>
 		<?php
-	} // End analysis_lesson_users_nav()
+	}
 
 	/**
 	 * Handles CSV export requests
@@ -624,7 +624,7 @@ class Sensei_Analysis {
 				// Overview of all Learners, all Courses, or all Lessons
 				$sensei_analysis_report_object = $this->load_report_object( 'Overview', $type );
 				$event_properties['view']      = isset( $_GET['view'] ) ? $_GET['view'] : '';
-			} // End If Statement
+			}
 
 			// Handle the headers
 			$this->report_set_headers( $filename );
@@ -640,8 +640,8 @@ class Sensei_Analysis {
 
 			// Cleanly exit
 			exit;
-		} // End wp_query check
-	} // End report_download_page()
+		}
+	}
 
 	/**
 	 * Sets headers for CSV reporting export
@@ -653,7 +653,7 @@ class Sensei_Analysis {
 	public function report_set_headers( $filename = '' ) {
 		header( 'Content-Type: text/csv' );
 		header( 'Content-Disposition: attachment;filename=' . $filename . '.csv' );
-	} // End report_set_headers()
+	}
 
 	/**
 	 * Loads the right object for CSV reporting
@@ -672,7 +672,7 @@ class Sensei_Analysis {
 			$sensei_analysis_report_object = new $object_name( $data, $optional_data );
 		}
 		return $sensei_analysis_report_object;
-	} // End load_report_object()
+	}
 
 	/**
 	 * Write array data to CSV
@@ -685,9 +685,9 @@ class Sensei_Analysis {
 		$fp = fopen( 'php://output', 'w' );
 		foreach ( $report_data as $row ) {
 			fputcsv( $fp, $row );
-		} // End For Loop
+		}
 		fclose( $fp );
-	} // End report_write_download()
+	}
 
 	/**
 	 * Adds display_name to the default list of search columns for the WP User Object
@@ -704,7 +704,7 @@ class Sensei_Analysis {
 		return $search_columns;
 	}
 
-} // End Class
+}
 
 /**
  * Class WooThemes_Sensei_Analysis

@@ -116,7 +116,7 @@ class Sensei_Core_Modules {
 		// remove the default modules  metabox
 		add_action( 'admin_init', array( 'Sensei_Core_Modules', 'remove_default_modules_box' ) );
 
-	} // end constructor
+	}
 
 	/**
 	 * Alter a module term slug when a new taxonomy term is created
@@ -188,7 +188,7 @@ class Sensei_Core_Modules {
 		} else {
 			// translators: The placeholders are opening and closing <em> tags.
 			$html .= '<p>' . sprintf( __( 'No modules are available for this lesson yet. %1$sPlease select a course first.%2$s', 'sensei-lms' ), '<em>', '</em>' ) . '</p>';
-		} // End If Statement
+		}
 		$html .= '</div>';
 
 		echo wp_kses(
@@ -263,7 +263,7 @@ class Sensei_Core_Modules {
 			 * %4$s - </a>
 			 */
 			$html .= '<p>' . wp_kses_post( sprintf( __( 'No modules are available for this lesson yet. %1$sPlease add some to %3$sthe course%4$s.%2$s', 'sensei-lms' ), '<em>', '</em>', '<a href="' . esc_url( $course_url ) . '">', '</a>' ) ) . '</p>';
-		} // End If Statement
+		}
 		return $html;
 	}
 
@@ -680,7 +680,7 @@ class Sensei_Core_Modules {
 		 * @param bool    $link_to_current    Allow for linking to the currently displayed module.
 		 */
 		return apply_filters( 'sensei_do_link_to_module', $do_link_to_module, $module, $link_to_current );
-	} // End do_link_to_module()
+	}
 
 	/**
 	 * Checks if a module taxonomy template file has been overridden.
@@ -695,7 +695,7 @@ class Sensei_Core_Modules {
 		$template = locate_template( $find );
 
 		return (bool) $template;
-	} // End is_module_tax_template_overridden()
+	}
 
 	/**
 	 * Set lesson archive template to display on module taxonomy archive page
@@ -1462,7 +1462,7 @@ class Sensei_Core_Modules {
 		$disable_styles = false;
 		if ( isset( Sensei()->settings->settings['styles_disable'] ) ) {
 			$disable_styles = Sensei()->settings->settings['styles_disable'];
-		} // End If Statement
+		}
 
 		// Add filter for theme overrides
 		$disable_styles = apply_filters( 'sensei_disable_styles', $disable_styles );
@@ -1580,7 +1580,7 @@ class Sensei_Core_Modules {
 
 		Sensei_Templates::get_template( 'single-course/modules.php' );
 
-	} // end course_module_content
+	}
 
 	/**
 	 * Returns all lessons for the given module ID
@@ -1605,7 +1605,7 @@ class Sensei_Core_Modules {
 
 		}
 
-	} // end get lessons
+	}
 
 	/**
 	 * Returns all lessons for the given module ID
@@ -1658,7 +1658,7 @@ class Sensei_Core_Modules {
 
 		return $lessons_query;
 
-	} // end get lessons
+	}
 
 	/**
 	 * Find the lesson in the given course that doesn't belong
@@ -1786,7 +1786,7 @@ class Sensei_Core_Modules {
 
 		register_taxonomy( 'module', array( 'course', 'lesson' ), $args );
 
-	}//end setup_modules_taxonomy()
+	}
 
 	/**
 	 * When the wants to edit the lesson modules redirect them to the course modules.
@@ -1804,7 +1804,7 @@ class Sensei_Core_Modules {
 			wp_safe_redirect( esc_url_raw( 'edit-tags.php?taxonomy=module&post_type=course' ) );
 		}
 
-	}//end redirect_to_lesson_module_taxonomy_to_course()
+	}
 
 	/**
 	 * Completely remove the module menu item under lessons.
@@ -1829,7 +1829,7 @@ class Sensei_Core_Modules {
 			}
 		}
 
-	}//end remove_lessons_menu_model_taxonomy()
+	}
 
 	/**
 	 * Completely remove the second modules under courses
@@ -1854,7 +1854,7 @@ class Sensei_Core_Modules {
 			}
 		}
 
-	}//end remove_courses_menu_model_taxonomy()
+	}
 
 	/**
 	 * Determine the author of a module term term by looking at
@@ -1891,12 +1891,12 @@ class Sensei_Core_Modules {
 				// look for the author in the slug
 				$owners[] = self::get_term_author( $term->slug );
 
-			}// end if term name
-		} // end for each
+			}
+		}
 
 		return $owners;
 
-	}//end get_term_authors()
+	}
 
 	/**
 	 * Looks at a term slug and figures out
@@ -2005,7 +2005,7 @@ class Sensei_Core_Modules {
 			<?php endif; ?>
 		</div>
 		<?php
-	} // end course_module_metabox
+	}
 
 
 	/**
@@ -2124,7 +2124,7 @@ class Sensei_Core_Modules {
 		$teachers_terms = $this->filter_terms_by_owner_no_infinite_loop( $terms, get_current_user_id() );
 
 		return $teachers_terms;
-	}//end filter_module_terms()
+	}
 
 	/**
 	 * Call filter_terms_by_owner without infinite loops
@@ -2174,7 +2174,7 @@ class Sensei_Core_Modules {
 
 		return $terms;
 
-	}//end filter_course_selected_terms()
+	}
 
 	/**
 	 * Filter the given terms and only return the
@@ -2206,7 +2206,7 @@ class Sensei_Core_Modules {
 
 		return $users_terms;
 
-	} // end filter terms by owner
+	}
 
 	/**
 	 * Add the teacher name next to modules. Only works in Admin for Admin users.
@@ -2345,7 +2345,7 @@ class Sensei_Core_Modules {
 		$sensei_modules_loop['current']   = -1;
 		$sensei_modules_loop['course_id'] = $course_id;
 
-	}//end setup_single_course_module_loop()
+	}
 
 	/**
 	 * Tear down the course module loop.
@@ -2363,6 +2363,6 @@ class Sensei_Core_Modules {
 
 		// set the current course to be the global post again
 		wp_reset_query();
-	}//end teardown_single_course_module_loop()
+	}
 
-} // end modules class
+}

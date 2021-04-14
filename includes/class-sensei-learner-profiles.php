@@ -39,7 +39,7 @@ class Sensei_Learner_Profiles {
 
 		// Add class to body tag
 		add_filter( 'body_class', array( $this, 'learner_profile_body_class' ), 10, 1 );
-	} // End __construct().
+	}
 
 	/**
 	 * Enqueue frontend JavaScripts.
@@ -262,11 +262,9 @@ class Sensei_Learner_Profiles {
 	public static function deprecate_sensei_learner_profile_content_hook() {
 
 		sensei_do_deprecated_action( 'sensei_learner_profile_content', '1.9.0', 'sensei_learner_profile_content_before' );
-
 	}
 
-
-} // End Class
+}
 
 /**
  * Class WooThemes_Sensei_Learner_Profiles

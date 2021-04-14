@@ -14,7 +14,7 @@ class Sensei_Class_Admin_Test extends WP_UnitTestCase {
 		parent::setup();
 
 		$this->factory = new Sensei_Factory();
-	}//end setup()
+	}
 
 	public function tearDown() {
 		parent::tearDown();
@@ -29,7 +29,7 @@ class Sensei_Class_Admin_Test extends WP_UnitTestCase {
 	public function testClassInstance() {
 		// test if the class exists
 		$this->assertTrue( class_exists( 'WooThemes_Sensei_Admin' ), 'Sensei Admin class does not exist' );
-	} // end testClassInstance
+	}
 
 	/**
 	 * Test duplicate courses with lessons.
@@ -179,4 +179,4 @@ class Sensei_Class_Admin_Test extends WP_UnitTestCase {
 			'lessons_ids' => $lessons_ids,
 		);
 	}
-}//end class
+}

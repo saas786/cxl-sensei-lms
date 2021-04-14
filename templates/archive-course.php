@@ -37,7 +37,7 @@
 
 		<p><?php esc_html_e( 'No courses found that match your selection.', 'sensei-lms' ); ?></p>
 
-	<?php endif; // End If Statement ?>
+	<?php endif;?>
 
 	<?php
 

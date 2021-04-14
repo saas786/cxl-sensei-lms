@@ -20,7 +20,7 @@ class Sensei_Class_Course_Test extends WP_UnitTestCase {
 
 		$this->factory = new Sensei_Factory();
 		Sensei_Test_Events::reset();
-	}//end setup()
+	}
 
 	public function tearDown() {
 		parent::tearDown();
@@ -40,7 +40,7 @@ class Sensei_Class_Course_Test extends WP_UnitTestCase {
 		// test if the global sensei quiz class is loaded
 		$this->assertTrue( isset( Sensei()->course ), 'Sensei Course class is not loaded' );
 
-	} // end testClassInstance
+	}
 
 	/**
 	 * This tests Sensei_Courses::get_all_course
@@ -66,7 +66,7 @@ class Sensei_Class_Course_Test extends WP_UnitTestCase {
 			'The number of course returned is not equal to what is actually available'
 		);
 
-	}//end testGetAllCourses()
+	}
 
 	/**
 	 *
@@ -107,7 +107,7 @@ class Sensei_Class_Course_Test extends WP_UnitTestCase {
 		// does it return all lessons
 		$this->assertEquals( count( $test_lessons ), count( Sensei()->course->get_completed_lesson_ids( $test_course_id, $test_user_id ) ), 'Course completed lesson count not accurate' );
 
-	}//end testGetCompletedLessonIds()
+	}
 
 	/**
 	 * This tests Sensei_Courses::get_completion_percentage
@@ -339,4 +339,4 @@ class Sensei_Class_Course_Test extends WP_UnitTestCase {
 		$event = $events[0];
 		$this->assertEquals( 2, $event['url_args']['product_count'], 'Event should have 2 products attached to the course' );
 	}
-}//end class
+}

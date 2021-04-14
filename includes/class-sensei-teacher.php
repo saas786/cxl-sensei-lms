@@ -94,7 +94,7 @@ class Sensei_Teacher {
 		add_action( 'admin_menu', array( $this, 'restrict_posts_menu_page' ), 10 );
 		add_filter( 'pre_get_comments', array( $this, 'restrict_comment_moderation' ), 10, 1 );
 
-	} // end __constructor()
+	}
 
 	/**
 	 * Sensei_Teacher::create_teacher_role
@@ -120,7 +120,7 @@ class Sensei_Teacher {
 		// add the capabilities before returning
 		$this->add_capabilities();
 
-	}//end create_role()
+	}
 
 	/**
 	 * Sensei_Teacher::add_capabilities
@@ -207,9 +207,9 @@ class Sensei_Teacher {
 			// load the capability on to the teacher role
 			$this->teacher_role->add_cap( $cap, $grant );
 
-		} // End foreach().
+		}
 
-	}//end add_capabilities()
+	}
 
 	/**
 	 * Sensei_Teacher::teacher_meta_box
@@ -236,7 +236,7 @@ class Sensei_Teacher {
 			'core'
 		);
 
-	} // end teacher_meta_box()
+	}
 
 	/**
 	 * Sensei_Teacher::teacher_meta_box_content
@@ -269,14 +269,14 @@ class Sensei_Teacher {
 					</option>
 
 				<?php
-			}// End foreach().
+			}
 			?>
 
 		</select>
 
 		<?php
 
-	} // end render_teacher_meta_box()
+	}
 
 	/**
 	 * Sensei_Teacher::get_teachers_and_authors
@@ -308,7 +308,7 @@ class Sensei_Teacher {
 
 		return array_unique( array_merge( $teachers, $authors ) );
 
-	}//end get_teachers_and_authors()
+	}
 
 	/**
 	 * Sensei_Teacher::save_teacher_meta_box
@@ -371,7 +371,7 @@ class Sensei_Teacher {
 		 */
 		// $this->teacher_course_assigned_notification( $new_author, $course_id );
 
-	} // end save_teacher_meta_box
+	}
 
 	/**
 	 * Update all the course terms set(selected) on the given course. Moving course term ownership to
@@ -594,7 +594,7 @@ class Sensei_Teacher {
 		$query->set( 'author', $current_user->ID );
 		return $query;
 
-	}//end course_analysis_teacher_access_limit()
+	}
 
 
 	/**
@@ -622,7 +622,7 @@ class Sensei_Teacher {
 
 		return $is_admin_teacher;
 
-	} // end is_admin_teacher
+	}
 
 	/**
 	 * Show correct post counts on list table for Sensei post types
@@ -744,7 +744,7 @@ class Sensei_Teacher {
 		}
 		return $comments;
 
-	}//end filter_grading_activity_queries()
+	}
 
 	/**
 	 * Limit the grading screen totals to only show lessons in the course
@@ -873,7 +873,7 @@ class Sensei_Teacher {
 		$email->trigger( $teacher_id, $course_id );
 
 		return true;
-	} // end  teacher_course_assigned_notification
+	}
 
 	/**
 	 * Email the admin when a teacher creates a new course
@@ -970,7 +970,7 @@ class Sensei_Teacher {
 
 		do_action( 'sensei_after_sending_email' );
 
-	}//end notify_admin_teacher_course_creation()
+	}
 
 	/**
 	 * Limit the analysis view to only the users taking courses belong to this teacher
@@ -1134,7 +1134,7 @@ class Sensei_Teacher {
 		}
 
 		return $wp_query;
-	}//end give_access_to_all_questions()
+	}
 
 	/**
 	 * Add new column heading to the course admin edit list
@@ -1153,7 +1153,7 @@ class Sensei_Teacher {
 		);
 		return array_merge( $columns, $new_columns );
 
-	}//end course_column_heading()
+	}
 
 	/**
 	 * Print out  teacher column data
@@ -1177,7 +1177,7 @@ class Sensei_Teacher {
 
 		echo '<a href="' . esc_url( get_edit_user_link( $teacher->ID ) ) . '" >' . esc_html( $teacher->display_name ) . '</a>';
 
-	}//end course_column_data()
+	}
 
 	/**
 	 * Return only courses belonging to the given teacher.
@@ -1366,7 +1366,7 @@ class Sensei_Teacher {
 		}
 
 		return $request;
-	} // End restrict_media_library()
+	}
 
 	/**
 	 * Only show current teacher's media in the media library modal on the course/lesson/quesion edit screen
@@ -1391,7 +1391,7 @@ class Sensei_Teacher {
 		}
 
 		return $query;
-	} // End restrict_media_library_modal()
+	}
 
 	/**
 	 * When saving the lesson, update the teacher if the lesson belongs to a course
@@ -1423,7 +1423,7 @@ class Sensei_Teacher {
 		$data['post_author'] = $course->post_author;
 
 		return $data;
-	} // end update_lesson_teacher
+	}
 
 	/**
 	 * Sensei_Teacher::limit_teacher_edit_screen_post_types
@@ -1470,7 +1470,7 @@ class Sensei_Teacher {
 
 		return $wp_query;
 
-	} // end limit_teacher_edit_screen_post_types()
+	}
 
 
 	/**
@@ -1505,7 +1505,7 @@ class Sensei_Teacher {
 			}
 		}
 
-	} // end teacher_login_redirect()
+	}
 
 
 
@@ -1552,7 +1552,7 @@ class Sensei_Teacher {
 			}
 		}
 
-	} // end restrict_posts_menu_page()
+	}
 
 	/**
 	 * Sensei_Teacher::restrict_comment_moderation()
@@ -1577,7 +1577,7 @@ class Sensei_Teacher {
 
 		return $clauses;
 
-	}   // end restrict_comment_moderation()
+	}
 
 	/**
 	 * Determine if a user is a teacher by ID
@@ -1600,7 +1600,7 @@ class Sensei_Teacher {
 
 		}
 
-	}//end is_a_teacher()
+	}
 
 	/**
 	 * The archive title on the teacher archive filter
@@ -1622,7 +1622,7 @@ class Sensei_Teacher {
 			</h2>
 		<?php
 
-	}//end archive_title()
+	}
 
 	/**
 	 * Removing course meta on the teacher archive page
@@ -1635,4 +1635,4 @@ class Sensei_Teacher {
 
 	}
 
-} // End Class
+}

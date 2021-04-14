@@ -19,8 +19,7 @@ class Sensei_Class_Student_Test extends WP_UnitTestCase {
 		parent::setup();
 
 		$this->factory = new Sensei_Factory();
-
-	}//end setUp()
+	}
 
 	public function tearDown() {
 		parent::tearDown();
@@ -35,7 +34,7 @@ class Sensei_Class_Student_Test extends WP_UnitTestCase {
 		// test if the global sensei quiz class is loaded
 		$this->assertTrue( class_exists( 'Sensei_Learner' ), 'the Sensei student class is not loaded' );
 
-	} // end testClassInstance
+	}
 
 	/**
 	 * Testing the get_learner_full_name function. This function tests the basic assumptions.
@@ -54,7 +53,7 @@ class Sensei_Class_Student_Test extends WP_UnitTestCase {
 		$this->assertFalse( Sensei_Learner::get_full_name( 'abc' ), 'Invalid user_id should return false' );
 		$this->assertFalse( Sensei_Learner::get_full_name( 4000000 ), 'Invalid user_id should return false' );
 
-	}//end testGetLearnerFullNameBasicAssumptions()
+	}
 
 	/**
 	 * Testing the get_learner_full_name function to see if it returns what is expected.
@@ -87,6 +86,6 @@ class Sensei_Class_Student_Test extends WP_UnitTestCase {
 			'This function should return the users first name and last name.'
 		);
 
-	}//end testGetLearnerFullName()
+	}
 
-}//end class
+}
