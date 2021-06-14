@@ -1143,7 +1143,7 @@ class Sensei_Question {
 			$lumo_icon_color = 'var(--lumo-success-color)';
 			$feedback        = 'Correct answer';
 
-			if ( str_contains( $answer_message_class, 'user_wrong' ) ) {
+			if ( false !== strpos( $answer_message_class, 'user_wrong' ) ) {
 
 			    $lumo_icon       = 'lumo:cross';
 			    $lumo_icon_color = 'var(--lumo-error-color)';
