@@ -739,6 +739,8 @@ class Sensei_Factory extends WP_UnitTest_Factory {
 	}
 
 	/**
+	 * Get lesson without quiz.
+	 *
 	 * @return int|WP_Error
 	 */
 	public function get_lesson_no_quiz() {
@@ -746,6 +748,8 @@ class Sensei_Factory extends WP_UnitTest_Factory {
 	}
 
 	/**
+	 * Get lesson with empty quiz.
+	 *
 	 * @return int|WP_Error
 	 * @throws Exception
 	 */
@@ -757,6 +761,8 @@ class Sensei_Factory extends WP_UnitTest_Factory {
 	}
 
 	/**
+	 * Get lesson with graded quiz.
+	 *
 	 * @return int|WP_Error
 	 * @throws Exception
 	 */
@@ -768,12 +774,29 @@ class Sensei_Factory extends WP_UnitTest_Factory {
 	}
 
 	/**
+	 * Get lesson with no graded quiz.
+	 *
 	 * @return int|WP_Error
 	 * @throws Exception
 	 */
 	public function get_lesson_no_graded_quiz() {
 		$lesson_id = $this->get_lesson_no_quiz();
 		$this->attach_lessons_questions( 10, $lesson_id, array( 'question_grade' => '0' ) );
+
+		return $lesson_id;
+	}
+
+	/**
+	 * Get lesson with quiz and questions.
+	 *
+	 * @return int|WP_Error
+	 * @throws Exception
+	 */
+	public function get_lesson_with_quiz_and_questions() {
+		$lesson_id = $this->get_lesson_no_quiz();
+		$quiz_id   = $this->quiz->create( [ 'post_parent' => $lesson_id ] );
+
+		$this->attach_lessons_questions( 3, $lesson_id );
 
 		return $lesson_id;
 	}

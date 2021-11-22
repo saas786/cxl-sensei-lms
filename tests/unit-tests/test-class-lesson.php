@@ -466,4 +466,17 @@ class Sensei_Class_Lesson_Test extends WP_UnitTestCase {
 		$first_lesson = Sensei()->lesson::find_first_prerequisite_lesson( $course_with_lessons['lesson_ids'][4], $user_id );
 		$this->assertEquals( $course_with_lessons['lesson_ids'][2], $first_lesson, 'Result not equal with the third lesson when user has completed the second.' );
 	}
+
+	/**
+	 * Test get lesson quiz permalink.
+	 *
+	 * @covers Sensei_Lesson::get_quiz_permalink()
+	 */
+	public function testGetLessonQuizPermalink() {
+		$lesson_id_empty_quiz = $this->factory->get_lesson_empty_quiz();
+		$this->assertNull( Sensei()->lesson->get_quiz_permalink( $lesson_id_empty_quiz ) );
+
+		$lesson_id_with_quiz = $this->factory->get_lesson_with_quiz_and_questions();
+		$this->assertNotEmpty( Sensei()->lesson->get_quiz_permalink( $lesson_id_with_quiz ) );
+	}
 }
