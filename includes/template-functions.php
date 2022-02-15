@@ -61,6 +61,10 @@ function sensei_start_course_form( $course_id ) {
 	$prerequisite_complete = Sensei_Course::is_prerequisite_complete( $course_id );
 
 	if ( $prerequisite_complete ) {
+		
+		// CXL UI action bar integration.
+		ob_start();
+		
 		wp_enqueue_script( 'sensei-stop-double-submission' );
 
 		?><form id="sensei_start_course_form" method="POST" action="<?php echo esc_url( get_permalink( $course_id ) ); ?>">
@@ -81,6 +85,15 @@ function sensei_start_course_form( $course_id ) {
 
 			</form>
 			<?php
+				$action_html = ob_get_clean();
+
+				add_filter( 'cxl_app_layout_action_bar_actions', static function( array $actions ) use ( $action_html ): array {
+		
+					$actions['primary'] .= $action_html;
+		
+					return $actions;
+		
+				} );
 	}
 }
 

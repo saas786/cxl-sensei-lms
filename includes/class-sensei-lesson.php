@@ -4884,8 +4884,6 @@ class Sensei_Lesson {
 		$show_actions              = self::should_show_lesson_actions( $lesson_id, $user_id );
 		?>
 
-		<footer>
-
 			<?php
 			if ( $show_actions && $quiz_id && Sensei()->access_settings() ) {
 
@@ -4914,8 +4912,6 @@ class Sensei_Lesson {
 
 			}
 			?>
-
-		</footer>
 
 		<?php
 	}

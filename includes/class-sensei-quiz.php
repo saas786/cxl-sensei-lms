@@ -1803,6 +1803,11 @@ class Sensei_Quiz {
 			<input type="hidden" name="woothemes_sensei_save_quiz_nonce" form="sensei-quiz-form" id="woothemes_sensei_save_quiz_nonce" value="<?php echo esc_attr( wp_create_nonce( 'woothemes_sensei_save_quiz_nonce' ) ); ?>" />
 		<?php endif ?>
 
+		<?php
+		// CXL UI action bar integration.
+		ob_start();
+		?>
+
 		<?php if ( ! $is_quiz_completed ) : ?>
 			<vaadin-button
 					type="submit"
@@ -1811,8 +1816,7 @@ class Sensei_Quiz {
 					class="wp-block-button__link button quiz-submit complete sensei-stop-double-submission"
 					theme="primary"
 			>
-				<iron-icon icon="lumo:arrow-right" slot="suffix"></iron-icon>
-				<?php esc_html_e( 'Complete Quiz', 'sensei-lms' ); ?>
+				<?php esc_html_e( 'Complete quiz', 'sensei-lms' ); ?>
 			</vaadin-button>
 		<?php endif ?>
 
@@ -1825,7 +1829,7 @@ class Sensei_Quiz {
 					theme="tertiary contrast"
 			>
 				<iron-icon icon="lumo:reload" slot="suffix"></iron-icon>
-				<?php esc_html_e( 'Reset Quiz', 'sensei-lms' ); ?>
+				<?php esc_html_e( 'Reset quiz', 'sensei-lms' ); ?>
 			</vaadin-button>
 		<?php endif ?>
 
@@ -1837,14 +1841,13 @@ class Sensei_Quiz {
 					class="quiz-submit save sensei-stop-double-submission"
 					theme="contrast"
 			>
-				<iron-icon icon="lumo:arrow-down" slot="suffix"></iron-icon>
-				<?php esc_html_e( 'Save Quiz', 'sensei-lms' ); ?>
+				<?php esc_html_e( 'Save quiz', 'sensei-lms' ); ?>
 			</vaadin-button>
 		<?php endif ?>
 
 		<script>
 			((container, d) => {
-				d.querySelectorAll(`${container} > form vaadin-button[type="submit"]`).forEach((el) => {
+				d.querySelectorAll(`div[slot="action-bar"] vaadin-button[type="submit"].quiz-submit`).forEach((el) => {
 					el.onclick = (e) => {
 						d.getElementById('cxl_sensei_quiz_submit_name').setAttribute('name', e.target.getAttribute('name'));
 						d.querySelector(`${container} > form`).submit();
@@ -1853,6 +1856,19 @@ class Sensei_Quiz {
 			})('.quiz-questions', document);
 		</script>
 		<?php
+
+		$action_html = ob_get_clean();
+
+		add_filter(
+			'cxl_app_layout_action_bar_actions',
+			static function( array $actions ) use ( $action_html ): array {
+
+				$actions['primary'] .= $action_html;
+
+				return $actions;
+
+			}
+		);
 
 	}
 
