@@ -1291,8 +1291,6 @@ class Sensei_Quiz {
 		}
 		if ( $show_actions && is_user_logged_in() && Sensei_Utils::user_started_course( $lesson_course_id, $current_user->ID ) ) {
 
-			// Get Reset Settings
-			$reset_quiz_allowed = get_post_meta( $post->ID, '_enable_quiz_reset', true );
 			?>
 
 			 <!-- Action Nonce's -->
@@ -1306,6 +1304,15 @@ class Sensei_Quiz {
 
 			<input id="cxl_sensei_quiz_submit_name" type="hidden" />
 
+			<?php
+
+			// CXL UI action bar integration.
+			ob_start();
+
+			// Get Reset Settings
+			$reset_quiz_allowed = get_post_meta( $post->ID, '_enable_quiz_reset', true );
+			?>
+
 			<?php if ( isset( $reset_quiz_allowed ) && $reset_quiz_allowed ) { ?>
 
 				<vaadin-button
@@ -1315,7 +1322,7 @@ class Sensei_Quiz {
 					theme="tertiary contrast"
 				>
 					<iron-icon icon="lumo:reload" slot="suffix"></iron-icon>
-					<?php esc_html_e( 'Reset Quiz', 'sensei-lms' ); ?>
+					<?php esc_html_e( 'Reset quiz', 'sensei-lms' ); ?>
 				</vaadin-button>
 
 			<?php } ?>
@@ -1328,8 +1335,7 @@ class Sensei_Quiz {
 					class="quiz-submit save"
 					theme="contrast"
 				>
-					<iron-icon icon="lumo:arrow-down" slot="suffix"></iron-icon>
-					<?php esc_html_e( 'Save Quiz', 'sensei-lms' ); ?>
+					<?php esc_html_e( 'Save quiz', 'sensei-lms' ); ?>
 				</vaadin-button>
 
 				<vaadin-button
@@ -1338,15 +1344,15 @@ class Sensei_Quiz {
 					 class="quiz-submit complete"
 					 theme="primary"
 				 >
-					<iron-icon icon="lumo:arrow-right" slot="suffix"></iron-icon>
-					 <?php esc_html_e( 'Complete Quiz', 'sensei-lms' ); ?>
+					<iron-icon icon="vaadin:check-circle" slot="suffix"></iron-icon>
+					 <?php esc_html_e( 'Complete quiz', 'sensei-lms' ); ?>
 				 </vaadin-button>
 
 				<?php } // End If Statement ?>
 
 				<script>
 					((container, d) => {
-						d.querySelectorAll(`${container} > form vaadin-button[type="submit"]`).forEach((el) => {
+						d.querySelectorAll(`div[slot="action-bar"] vaadin-button[type="submit"].quiz-submit`).forEach((el) => {
 							el.onclick = (e) => {
 								d.getElementById('cxl_sensei_quiz_submit_name').setAttribute('name', e.target.getAttribute('name'));
 								d.querySelector(`${container} > form`).submit();
@@ -1356,6 +1362,17 @@ class Sensei_Quiz {
 				</script>
 
 			<?php
+
+			$action_html = ob_get_clean();
+
+			add_filter( 'cxl_app_layout_action_bar_actions', static function( array $actions ) use ( $action_html ): array {
+
+				$actions['primary'] .= $action_html;
+
+				return $actions;
+
+			} );
+
 		}
 
 	} // End sensei_quiz_action_buttons()
