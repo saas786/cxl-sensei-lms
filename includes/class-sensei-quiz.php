@@ -1845,6 +1845,10 @@ class Sensei_Quiz {
 			</vaadin-button>
 		<?php endif ?>
 
+		<!--
+			Note: By default, Quiz actions render outside of relevant form `.quiz-questions form`,
+			so we trigger it upon relevant action click.
+		-->
 		<script>
 			((container, d) => {
 				d.querySelectorAll(`div[slot="action-bar"] vaadin-button[type="submit"].quiz-submit`).forEach((el) => {
