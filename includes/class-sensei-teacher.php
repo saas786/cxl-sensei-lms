@@ -89,7 +89,7 @@ class Sensei_Teacher {
 		add_filter( 'wp_insert_post_data', array( $this, 'update_lesson_teacher' ), 99, 2 );
 
 		// If a Teacher logs in, redirect to /wp-admin/
-		add_filter( 'wp_login', array( $this, 'teacher_login_redirect' ), 10, 2 );
+		// add_filter( 'wp_login', array( $this, 'teacher_login_redirect' ), 10, 2 );
 
 		add_action( 'admin_menu', array( $this, 'restrict_posts_menu_page' ), 10 );
 		add_filter( 'pre_get_comments', array( $this, 'restrict_comment_moderation' ), 10, 1 );
