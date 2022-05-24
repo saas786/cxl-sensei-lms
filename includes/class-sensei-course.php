@@ -516,7 +516,7 @@ class Sensei_Course {
 				$html     .= '<a href="'
 					. esc_url( get_edit_post_link( $post_item->ID ) )
 					. '" title="'
-					// translators: Placeholder is the Lesson title.
+					// translators: Placeholder is the item title/name.
 					. esc_attr( sprintf( __( 'Edit %s', 'sensei-lms' ), $post_item->post_title ) )
 					. '" data-course-status="' . esc_attr( $post->post_status )
 					. '" class="edit-lesson-action">'
@@ -655,7 +655,7 @@ class Sensei_Course {
 					echo '<a href="'
 						. esc_url( get_edit_post_link( absint( $course_prerequisite_id ) ) )
 						. '" title="'
-						// translators: Placeholder is the title of the course prerequisite.
+						// translators: Placeholder is the item title/name.
 						. esc_attr( sprintf( __( 'Edit %s', 'sensei-lms' ), get_the_title( absint( $course_prerequisite_id ) ) ) )
 						. '">'
 						. esc_html( get_the_title( absint( $course_prerequisite_id ) ) )
