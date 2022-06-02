@@ -34,14 +34,14 @@ class Sensei_Settings extends Sensei_Settings_API {
 			$this->menu_label = __( 'Settings', 'sensei-lms' );
 			$this->page_slug  = 'sensei-settings';
 
-		} // End If Statement
+		}
 
 		$this->register_hook_listener();
 		$this->get_settings();
 
 		// Log when settings are updated by the user.
 		add_action( 'update_option_sensei-settings', [ $this, 'log_settings_update' ], 10, 2 );
-	} // End __construct()
+	}
 
 	/**
 	 * Get settings value
@@ -93,7 +93,7 @@ class Sensei_Settings extends Sensei_Settings_API {
 			add_action( 'admin_print_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'admin_print_styles', array( $this, 'enqueue_styles' ) );
 		}
-	} // End register_settings_screen()
+	}
 
 	/**
 	 * Add settings sections.
@@ -131,7 +131,7 @@ class Sensei_Settings extends Sensei_Settings_API {
 		);
 
 		$this->sections = apply_filters( 'sensei_settings_tabs', $sections );
-	} // End init_sections()
+	}
 
 	/**
 	 * Add settings fields.
@@ -612,7 +612,7 @@ class Sensei_Settings extends Sensei_Settings_API {
 
 		$this->fields = apply_filters( 'sensei_settings_fields', $fields );
 
-	} // End init_fields()
+	}
 
 	/**
 	 * Get options for the duration fields.
@@ -639,7 +639,7 @@ class Sensei_Settings extends Sensei_Settings_API {
 		}
 
 		return $options;
-	} // End get_duration_options()
+	}
 
 	/**
 	 * Return an array of pages.
@@ -676,13 +676,13 @@ class Sensei_Settings extends Sensei_Settings_API {
 			if ( isset( $matches[1] ) ) {
 				$id                = $matches[1];
 				$page_items[ $id ] = trim( strip_tags( $v ) );
-			} // End If Statement
-		} // End For Loop
+			}
+		}
 
 		$pages_array = $page_items;
 
 		return $pages_array;
-	} // End pages_array()
+	}
 
 	/**
 	 * Flush the rewrite rules after the settings have been updated.
@@ -704,7 +704,7 @@ class Sensei_Settings extends Sensei_Settings_API {
 
 		}
 
-	}//end flush_rewrite_rules()
+	}
 
 	/**
 	 * Logs settings update from the Settings form.
@@ -793,7 +793,7 @@ class Sensei_Settings extends Sensei_Settings_API {
 
 		return array_filter( array_merge( $added, $removed ) );
 	}
-} // End Class
+}
 
 /**
  * Class WooThemes_Sensei_Settings

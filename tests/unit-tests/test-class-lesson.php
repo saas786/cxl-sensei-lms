@@ -24,7 +24,7 @@ class Sensei_Class_Lesson_Test extends WP_UnitTestCase {
 
 		$this->factory = new Sensei_Factory();
 		Sensei_Test_Events::reset();
-	}//end setup()
+	}
 
 	public function tearDown() {
 		parent::tearDown();
@@ -44,7 +44,7 @@ class Sensei_Class_Lesson_Test extends WP_UnitTestCase {
 		// test if the global sensei lesson class is loaded
 		$this->assertTrue( isset( Sensei()->lesson ), 'Sensei lesson class is not loaded on the global sensei Object' );
 
-	} // end testClassInstance
+	}
 
 
 	/**
@@ -97,7 +97,7 @@ class Sensei_Class_Lesson_Test extends WP_UnitTestCase {
 			'Users that has completed prerequisite should return true.'
 		);
 
-	} // end testIsPreRequisiteComplete
+	}
 
 	public function testAddLessonToCourseOrderHook() {
 		if ( ! isset( Sensei()->admin ) ) {

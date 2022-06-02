@@ -48,7 +48,7 @@ class Sensei_Quiz {
 		// remove post when lesson is permanently deleted
 		add_action( 'delete_post', array( $this, 'maybe_delete_quiz' ) );
 
-	} // End __construct()
+	}
 
 	/**
 	 * Update the quiz data when the lesson is changed
@@ -115,7 +115,7 @@ class Sensei_Quiz {
 
 		return $lesson_id;
 
-	} // end lesson
+	}
 
 
 	/**
@@ -151,8 +151,7 @@ class Sensei_Quiz {
 		remove_action( 'sensei_single_quiz_content_inside_before', 'user_save_quiz_answers_listener' );
 
 		wp_safe_redirect( get_permalink() );
-
-	} // end user_save_quiz_answers_listener
+	}
 
 	/**
 	 * Save the user answers for the given lesson's quiz
@@ -213,7 +212,7 @@ class Sensei_Quiz {
 
 		return $answers_saved;
 
-	}//end save_user_answers()
+	}
 
 	/**
 	 * Get the user answers for the given lesson's quiz.
@@ -251,7 +250,7 @@ class Sensei_Quiz {
 
 			$encoded_user_answers = Sensei_Utils::get_user_data( 'quiz_answers', $lesson_id, $user_id );
 
-		} // end if transient check
+		}
 
 		if ( ! is_array( $encoded_user_answers ) ) {
 			return false;
@@ -268,7 +267,7 @@ class Sensei_Quiz {
 
 		return $answers;
 
-	}//end get_user_answers()
+	}
 
 
 	/**
@@ -298,7 +297,7 @@ class Sensei_Quiz {
 		// this function should only run once
 		remove_action( 'template_redirect', array( $this, 'reset_button_click_listener' ) );
 
-	} // end reset_button_click_listener
+	}
 
 	/**
 	 * Complete/ submit  quiz hooked function
@@ -329,8 +328,7 @@ class Sensei_Quiz {
 		self::submit_answers_for_grading( $quiz_answers, $_FILES, $lesson_id, $current_user->ID );
 
 		wp_safe_redirect( get_permalink() );
-
-	} // End sensei_complete_quiz()
+	}
 
 	/**
 	 * This function set's up the data need for the quiz page
@@ -374,7 +372,7 @@ class Sensei_Quiz {
 		$user_lesson_complete = false;
 		if ( $user_lesson_end ) {
 			$user_lesson_complete = true;
-		} // End If Statement
+		}
 
 		$reset_allowed = get_post_meta( $post->ID, '_enable_quiz_reset', true );
 		// backwards compatibility
@@ -393,7 +391,7 @@ class Sensei_Quiz {
 		$this->data->lesson_quiz_questions = $lesson_quiz_questions;
 		$this->data->reset_quiz_allowed    = $reset_allowed;
 
-	} // end load_global_quiz_data
+	}
 
 
 	/**
@@ -437,11 +435,11 @@ class Sensei_Quiz {
 						$answer = $attachment_id;
 					}
 				}
-			} // end if
+			}
 
 			$prepared_answers[ $question_id ] = base64_encode( maybe_serialize( $answer ) );
 
-		}// end for each $quiz_answers
+		}
 
 		return $prepared_answers;
 	} // prepare_form_submitted_answers
@@ -516,7 +514,7 @@ class Sensei_Quiz {
 
 		return true;
 
-	} // end reset_user_lesson_data
+	}
 
 	/**
 	 * Submit the users quiz answers for grading
@@ -616,7 +614,7 @@ class Sensei_Quiz {
 
 					$lesson_status = 'failed';
 
-				} // End If Statement
+				}
 			} else {
 
 				// Student only has to partake the quiz
@@ -626,7 +624,7 @@ class Sensei_Quiz {
 
 			$lesson_metadata['grade'] = $grade; // Technically already set as part of "Sensei_Utils::sensei_grade_quiz_auto()" above
 
-		} // end if ! is_wp_error( $grade ...
+		}
 
 		Sensei_Utils::update_lesson_status( $user_id, $lesson_id, $lesson_status, $lesson_metadata );
 
@@ -660,7 +658,7 @@ class Sensei_Quiz {
 
 		return $answers_submitted;
 
-	}//end submit_answers_for_grading()
+	}
 
 	/**
 	 * Get the user question answer
@@ -716,7 +714,7 @@ class Sensei_Quiz {
 
 		return $users_answers[ $question_id ];
 
-	}//end get_user_question_answer()
+	}
 
 	/**
 	 * Saving the users quiz question grades
@@ -768,7 +766,7 @@ class Sensei_Quiz {
 
 		return $success;
 
-	}//end set_user_grades()
+	}
 
 	/**
 	 * Retrieve the users quiz question grades
@@ -808,7 +806,7 @@ class Sensei_Quiz {
 			// set the transient with the new valid data for faster retrieval in future
 			set_transient( $transient_key, $user_grades, 10 * DAY_IN_SECONDS );
 
-		} // end if transient check
+		}
 
 		// if there is no data for this user
 		if ( ! is_array( $user_grades ) ) {
@@ -817,7 +815,7 @@ class Sensei_Quiz {
 
 		return $user_grades;
 
-	}//end get_user_grades()
+	}
 
 	/**
 	 * Get the user question grade
@@ -865,11 +863,11 @@ class Sensei_Quiz {
 
 			return $fall_back_grade;
 
-		} // end if $all_user_grades...
+		}
 
 		return $all_user_grades[ $question_id ];
 
-	}//end get_user_question_grade()
+	}
 
 	/**
 	 * Save the user's answers feedback
@@ -926,7 +924,7 @@ class Sensei_Quiz {
 
 		return $feedback_saved;
 
-	} // end save_user_answers_feedback
+	}
 
 	/**
 	 * Get the user's answers feedback.
@@ -971,7 +969,7 @@ class Sensei_Quiz {
 			// set the transient with the new valid data for faster retrieval in future
 			set_transient( $transient_key, $encoded_feedback, 10 * DAY_IN_SECONDS );
 
-		} // end if transient check
+		}
 
 		// if there is no data for this user
 		if ( ! is_array( $encoded_feedback ) ) {
@@ -986,7 +984,7 @@ class Sensei_Quiz {
 
 		return $answers_feedback;
 
-	} // end get_user_answers_feedback
+	}
 
 	/**
 	 * Get the user's answer feedback for a specific question.
@@ -1056,7 +1054,7 @@ class Sensei_Quiz {
 		 */
 		return apply_filters( 'sensei_user_question_feedback', $feedback, $lesson_id, $question_id, $user_id );
 
-	} // end get_user_question_feedback
+	}
 
 	/**
 	 * Check if a quiz has no questions, and redirect back to lesson.
@@ -1091,7 +1089,7 @@ class Sensei_Quiz {
 
 		}
 
-	} // end quiz_has_no_questions
+	}
 
 	/**
 	 * Deprecate the sensei_single_main_content on the single-quiz template.
@@ -1160,7 +1158,7 @@ class Sensei_Quiz {
 
 		global $sensei_question_loop;
 
-		// intialize the questions loop object
+		// Initialise the questions loop object.
 		$sensei_question_loop['current']   = -1;
 		$sensei_question_loop['total']     = 0;
 		$sensei_question_loop['questions'] = array();
@@ -1168,23 +1166,24 @@ class Sensei_Quiz {
 		$questions = Sensei()->lesson->lesson_quiz_questions( get_the_ID() );
 
 		if ( count( $questions ) > 0 ) {
-
 			$sensei_question_loop['total']     = count( $questions );
 			$sensei_question_loop['questions'] = $questions;
 			$sensei_question_loop['quiz_id']   = get_the_ID();
-
 		}
-
-	}//end start_quiz_questions_loop()
+	}
 
 	/**
 	 * Initialize the quiz question loop on the single quiz template
 	 *
 	 * The function will create a global quiz loop varialbe.
 	 *
+	 * @deprecated 3.10.0
+	 *
 	 * @since 1.9.0
 	 */
 	public static function stop_quiz_questions_loop() {
+
+		_deprecated_function( __METHOD__, '3.10.0' );
 
 		$sensei_question_loop              = [];
 		$sensei_question_loop['total']     = 0;
@@ -1216,7 +1215,7 @@ class Sensei_Quiz {
 		 </header>
 
 		 <?php
-	}//end the_title()
+	}
 
 	/**
 	 * Output the sensei quiz status message.
@@ -1348,7 +1347,7 @@ class Sensei_Quiz {
 					 <?php esc_html_e( 'Complete quiz', 'sensei-lms' ); ?>
 				 </vaadin-button>
 
-				<?php } // End If Statement ?>
+				<?php }?>
 
 				<!--
 					Note: By default, Quiz actions render outside of relevant form `.quiz-questions form`,
@@ -1379,7 +1378,7 @@ class Sensei_Quiz {
 
 		}
 
-	} // End sensei_quiz_action_buttons()
+	}
 
 	/**
 	 * Fetch the quiz grade

@@ -64,7 +64,10 @@ get_sensei_header();
 						sensei_setup_the_question();
 						?>
 
-						<li class="<?php sensei_the_question_class(); ?>">
+						<li
+							class="<?php sensei_the_question_class(); ?>"
+							value="<?php echo esc_attr( sensei_get_the_question_number() ); ?>"
+						>
 
 							<?php
 
@@ -130,7 +133,7 @@ get_sensei_header();
 
 		</section>
 
-	<?php endif; // user can view lesson ?>
+	<?php endif; ?>
 
 	<?php
 

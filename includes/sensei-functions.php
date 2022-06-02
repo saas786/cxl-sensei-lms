@@ -196,7 +196,7 @@ function sensei_do_deprecated_action( $hook_tag, $version, $alternative = '', $a
 
 	}
 
-}//end sensei_do_deprecated_action()
+}
 
 /**
  * Check the given post or post type id is a of the
@@ -237,7 +237,7 @@ function sensei_user_login_url() {
 
 	}
 
-}//end sensei_user_login_url()
+}
 
 /**
  * Checks the settings to see

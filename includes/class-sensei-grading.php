@@ -43,14 +43,14 @@ class Sensei_Grading {
 			add_action( 'admin_init', array( $this, 'admin_process_grading_submission' ) );
 
 			add_action( 'admin_notices', array( $this, 'add_grading_notices' ) );
-		} // End If Statement
+		}
 
 		// Ajax functions
 		if ( is_admin() ) {
 			add_action( 'wp_ajax_get_lessons_dropdown', array( $this, 'get_lessons_dropdown' ) );
 			add_action( 'wp_ajax_get_redirect_url', array( $this, 'get_redirect_url' ) );
-		} // End If Statement
-	} // End __construct()
+		}
+	}
 
 	/**
 	 * grading_admin_menu function.
@@ -64,7 +64,7 @@ class Sensei_Grading {
 			add_submenu_page( 'sensei', __( 'Grading', 'sensei-lms' ), __( 'Grading', 'sensei-lms' ), 'manage_sensei_grades', $this->page_slug, array( $this, 'grading_page' ) );
 		}
 
-	} // End grading_admin_menu()
+	}
 
 	/**
 	 * enqueue_scripts function.
@@ -81,7 +81,7 @@ class Sensei_Grading {
 		// Load Grading JS
 		wp_enqueue_script( 'sensei-grading-general', Sensei()->plugin_url . 'assets/js/grading-general' . $suffix . '.js', array( 'jquery', 'sensei-core-select2' ), Sensei()->version );
 
-	} // End enqueue_scripts()
+	}
 
 	/**
 	 * enqueue_styles function.
@@ -97,7 +97,7 @@ class Sensei_Grading {
 
 		wp_enqueue_style( 'sensei-settings-api', Sensei()->plugin_url . 'assets/css/settings.css', '', Sensei()->version );
 
-	} // End enqueue_styles()
+	}
 
 	/**
 	 * load_data_table_files loads required files for Grading
@@ -115,8 +115,8 @@ class Sensei_Grading {
 		);
 		foreach ( $classes_to_load as $class_file ) {
 			Sensei()->load_class( $class_file );
-		} // End For Loop
-	} // End load_data_table_files()
+		}
+	}
 
 	/**
 	 * load_data_object creates new instance of class
@@ -134,12 +134,12 @@ class Sensei_Grading {
 			$sensei_grading_object = new $object_name( $data );
 		} else {
 			$sensei_grading_object = new $object_name( $data, $optional_data );
-		} // End If Statement
+		}
 		if ( 'Main' == $name ) {
 			$sensei_grading_object->prepare_items();
-		} // End If Statement
+		}
 		return $sensei_grading_object;
-	} // End load_data_object()
+	}
 
 	/**
 	 * grading_page function.
@@ -154,8 +154,8 @@ class Sensei_Grading {
 			$this->grading_user_quiz_view();
 		} else {
 			$this->grading_default_view();
-		} // End If Statement
-	} // End grading_page()
+		}
+	}
 
 	/**
 	 * grading_default_view default view for grading page
@@ -201,7 +201,7 @@ class Sensei_Grading {
 		<?php
 		do_action( 'grading_wrapper_container', 'bottom' );
 		do_action( 'grading_after_container' );
-	} // End grading_default_view()
+	}
 
 	/**
 	 * grading_user_quiz_view user quiz answers view for grading page
@@ -234,7 +234,7 @@ class Sensei_Grading {
 		<?php
 		do_action( 'grading_wrapper_container', 'bottom' );
 		do_action( 'grading_after_container' );
-	} // End grading_user_quiz_view()
+	}
 
 	/**
 	 * Outputs Grading general headers
@@ -248,7 +248,7 @@ class Sensei_Grading {
 		$function = 'grading_' . $args['nav'] . '_nav';
 		$this->$function();
 		do_action( 'sensei_grading_after_headers' );
-	} // End grading_headers()
+	}
 
 	/**
 	 * wrapper_container wrapper for Grading area
@@ -266,8 +266,8 @@ class Sensei_Grading {
 			?>
 			</div><!--/#woothemes-sensei-->
 			<?php
-		} // End If Statement
-	} // End wrapper_container()
+		}
+	}
 
 	/**
 	 * Default nav area for Grading
@@ -298,11 +298,11 @@ class Sensei_Grading {
 			$user_name = Sensei_Learner::get_full_name( $_GET['user_id'] );
 			$title    .= '&nbsp;&nbsp;<span class="user-title">&gt;&nbsp;&nbsp;' . esc_html( $user_name ) . '</span>';
 
-		} // End If Statement
+		}
 		?>
 			<h1><?php echo wp_kses_post( apply_filters( 'sensei_grading_nav_title', $title ) ); ?></h1>
 		<?php
-	} // End grading_default_nav()
+	}
 
 	/**
 	 * Nav area for Grading specific users' quiz answers
@@ -345,11 +345,11 @@ class Sensei_Grading {
 			$user_name = Sensei_Learner::get_full_name( $_GET['user'] );
 			$title    .= '&nbsp;&nbsp;<span class="user-title">&gt;&nbsp;&nbsp;' . esc_html( $user_name ) . '</span>';
 
-		} // End If Statement
+		}
 		?>
 			<h2><?php echo wp_kses_post( apply_filters( 'sensei_grading_nav_title', $title ) ); ?></h2>
 		<?php
-	} // End grading_user_quiz_nav()
+	}
 
 	/**
 	 * Return array of valid statuses for either Course or Lesson
@@ -464,7 +464,7 @@ class Sensei_Grading {
 		}
 
 		return apply_filters( 'sensei_count_statuses', $counts, $type );
-	} // End sensei_count_statuses()
+	}
 
 	/**
 	 * Build the Courses dropdown for return in AJAX
@@ -491,11 +491,11 @@ class Sensei_Grading {
 		if ( count( $courses ) > 0 ) {
 			foreach ( $courses as $course_id ) {
 				$html .= '<option value="' . esc_attr( absint( $course_id ) ) . '" ' . selected( $course_id, $selected_course_id, false ) . '>' . esc_html( get_the_title( $course_id ) ) . '</option>' . "\n";
-			} // End For Loop
-		} // End If Statement
+			}
+		}
 
 		return $html;
-	} // End lessons_drop_down_html()
+	}
 
 	/**
 	 * Build the Lessons dropdown for return in AJAX
@@ -582,12 +582,12 @@ class Sensei_Grading {
 			if ( count( $lessons ) > 0 ) {
 				foreach ( $lessons as $lesson_id ) {
 					$html .= '<option value="' . esc_attr( absint( $lesson_id ) ) . '" ' . selected( $lesson_id, $selected_lesson_id, false ) . '>' . esc_html( get_the_title( $lesson_id ) ) . '</option>' . "\n";
-				} // End For Loop
-			} // End If Statement
-		} // End If Statement
+				}
+			}
+		}
 
 		return $html;
-	} // End lessons_drop_down_html()
+	}
 
 	/**
 	 * The process grading function handles admin grading submissions.
@@ -652,7 +652,7 @@ class Sensei_Grading {
 			}
 			$all_answers_feedback[ $question_id ] = $question_feedback;
 
-		} // end for each $questions
+		}
 
 		// store all question grades on the lesson status
 		Sensei()->quiz->set_user_grades( $all_question_grades, $quiz_lesson_id, $user_id );
@@ -678,7 +678,7 @@ class Sensei_Grading {
 					$lesson_status = 'passed';
 				} else {
 					$lesson_status = 'failed';
-				} // End If Statement
+				}
 			}
 			// Student only has to partake the quiz
 			else {
@@ -702,8 +702,8 @@ class Sensei_Grading {
 				 */
 				do_action( 'sensei_user_lesson_end', $user_id, $quiz_lesson_id );
 
-			} // end if in_array
-		}// end if $_POST['all_que...
+			}
+		}
 
 		if ( isset( $_POST['sensei_grade_next_learner'] ) && strlen( $_POST['sensei_grade_next_learner'] ) > 0 ) {
 
@@ -722,7 +722,7 @@ class Sensei_Grading {
 		wp_safe_redirect( esc_url_raw( $load_url ) );
 		exit;
 
-	} // end admin_process_grading_submission
+	}
 
 	public function get_redirect_url() {
 		if ( ! isset( $_GET['course_id'] ) || ! isset( $_GET['lesson_id'] ) ) {
@@ -823,8 +823,8 @@ class Sensei_Grading {
 			echo '<div class="grading-notice updated">';
 				echo '<p>' . esc_html__( 'Quiz Graded Successfully!', 'sensei-lms' ) . '</p>';
 			echo '</div>';
-		} // End If Statement
-	} // End sensei_grading_notices()
+		}
+	}
 
 	/**
 	 * Grade quiz automatically
@@ -889,8 +889,8 @@ class Sensei_Grading {
 				// There is a question that cannot be autograded
 				$quiz_autogradable = false;
 
-			} // end if in_array( $question_type...
-		}// end for each question
+			}
+		}
 
 		// Only if the whole quiz was autogradable do we set a grade
 		if ( $quiz_autogradable ) {
@@ -910,7 +910,7 @@ class Sensei_Grading {
 
 		return $grade;
 
-	} // End grade_quiz_auto()
+	}
 
 	/**
 	 * Grade question automatically
@@ -1001,10 +1001,10 @@ class Sensei_Grading {
 			 */
 			$question_grade = (int) apply_filters( 'sensei_grade_question_auto', $question_grade, $question_id, $question_type, $answer );
 
-		} // end if $question_type
+		}
 
 		return $question_grade;
-	} // end grade_question_auto
+	}
 
 	/**
 	 * Grading logic specifically for the gap fill questions
@@ -1142,7 +1142,7 @@ class Sensei_Grading {
 
 		return $sum_of_all_grades;
 
-	}//end get_lessons_users_grades_sum()
+	}
 
 	/**
 	 * Get the sum of all user grades for the given course.
@@ -1167,9 +1167,9 @@ class Sensei_Grading {
 
 		return $sum_of_all_grades;
 
-	}//end get_course_users_grades_sum()
+	}
 
-} // End Class
+}
 
 /**
  * Class WooThemes_Sensei_Grading

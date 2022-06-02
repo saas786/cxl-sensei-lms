@@ -105,7 +105,7 @@ class Sensei_Frontend {
 
 		// Hide Sensei activity comments from lesson and course pages.
 		add_filter( 'wp_list_comments_args', array( $this, 'hide_sensei_activity' ) );
-	} // End __construct()
+	}
 
 	/**
 	 * Graceful fallback for course and lesson variables on Frontend object.
@@ -152,9 +152,9 @@ class Sensei_Frontend {
 			// Allow additional scripts to be loaded.
 			do_action( 'sensei_additional_scripts' );
 
-		} // End If Statement
+		}
 
-	} // End enqueue_scripts()
+	}
 
 	/**
 	 * Enqueue frontend CSS files.
@@ -174,9 +174,9 @@ class Sensei_Frontend {
 			// Allow additional stylesheets to be loaded.
 			do_action( 'sensei_additional_styles' );
 
-		} // End If Statement
+		}
 
-	} // End enqueue_styles()
+	}
 
 
 	/**
@@ -192,7 +192,7 @@ class Sensei_Frontend {
 
 		Sensei_Templates::get_part( $slug, $name );
 
-	} // End sensei_get_template_part()
+	}
 
 	/**
 	 * Get template.
@@ -254,7 +254,7 @@ class Sensei_Frontend {
 
 		Sensei_Templates::get_template( 'globals/wrapper-start.php' );
 
-	} // End sensei_output_content_wrapper()
+	}
 
 
 	/**
@@ -281,7 +281,7 @@ class Sensei_Frontend {
 
 		Sensei_Templates::get_template( 'globals/wrapper-end.php' );
 
-	} // End sensei_output_content_wrapper_end()
+	}
 
 
 	/**
@@ -343,9 +343,9 @@ class Sensei_Frontend {
 
 			Sensei_Templates::get_template( 'globals/pagination.php' );
 
-		} // End If Statement
+		}
 
-	} // End sensei_output_content_pagination()
+	}
 
 	/**
 	 * Outputs comments for the specified pages.
@@ -357,7 +357,7 @@ class Sensei_Frontend {
 
 		Sensei_Lesson::output_comments();
 
-	} // End sensei_output_comments()
+	}
 
 	/**
 	 * Generates URLs for custom menu items.
@@ -446,7 +446,7 @@ class Sensei_Frontend {
 
 		return $item;
 
-	} // End sensei_setup_nav_menu_item()
+	}
 
 	/**
 	 *
@@ -481,7 +481,7 @@ class Sensei_Frontend {
 			}
 		}
 		return $sorted_menu_items;
-	} // End sensei_wp_nav_menu_objects
+	}
 
 	/**
 	 * Adds category nicenames to the body and post class.
@@ -494,9 +494,9 @@ class Sensei_Frontend {
 		// Handle Search Classes for Courses, Lessons, and WC Products.
 		if ( isset( $post->post_type ) && ( ( 'course' == $post->post_type ) || ( 'lesson' == $post->post_type ) || ( 'product' == $post->post_type ) ) ) {
 			$classes[] = 'post';
-		} // End If Statement
+		}
 		return $classes;
-	} // End sensei_search_results_classes()
+	}
 
 	/**
 	 * Outputs the single page title.
@@ -529,11 +529,11 @@ class Sensei_Frontend {
 			echo wp_kses_post( Sensei()->course->course_image( $course_id, $width, $height ) );
 			return '';
 
-		} // End If Statement
+		}
 
 		return Sensei()->course->course_image( $course_id, $width, $height );
 
-	} // End sensei_course_image()
+	}
 
 	/**
 	 * Outputs the lesson image.
@@ -558,7 +558,7 @@ class Sensei_Frontend {
 
 		return Sensei()->lesson->lesson_image( $lesson_id, $width, $height, $widget );
 
-	} // End sensei_lesson_image()
+	}
 
 	/**
 	 * Pagination for course archive pages when filtering by course type.
@@ -636,10 +636,10 @@ class Sensei_Frontend {
 		} else {
 			$post_id    = get_the_ID();
 			$post_title = get_the_title();
-		} // End If Statement
+		}
 		?><header><h2><a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" title="<?php echo esc_attr( $post_title ); ?>"><?php echo esc_html( $post_title ); ?></a></h2></header>
 		<?php
-	} // End sensei_course_archive_course_title()
+	}
 
 	/**
 	 * Outputs the title on the course archive page.
@@ -653,7 +653,7 @@ class Sensei_Frontend {
 		?>
 		<header><h2><a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" title="<?php echo esc_attr( $post_title ); ?>"><?php echo esc_html( $post_title ); ?></a></h2></header>
 		<?php
-	} // End sensei_lesson_archive_lesson_title()
+	}
 
 	/**
 	 * Outputs the breadcrumb for lessons and quizzes.
@@ -686,7 +686,7 @@ class Sensei_Frontend {
 				return;
 			}
 			$html .= '<a href="' . esc_url( get_permalink( $course_id ) ) . '" title="' . esc_attr__( 'Back to the course', 'sensei-lms' ) . '">' . esc_html( get_the_title( $course_id ) ) . '</a>';
-		} // End If Statement
+		}
 		// Quiz.
 		if ( is_singular( 'quiz' ) && 0 < intval( $id ) ) {
 			$lesson_id = intval( get_post_meta( $id, '_quiz_lesson', true ) );
@@ -694,14 +694,14 @@ class Sensei_Frontend {
 				return;
 			}
 			 $html .= '<a href="' . esc_url( get_permalink( $lesson_id ) ) . '" title="' . esc_attr__( 'Back to the lesson', 'sensei-lms' ) . '">' . esc_html( get_the_title( $lesson_id ) ) . '</a>';
-		} // End If Statement
+		}
 
 		// Allow other plugins to filter html.
 		$html  = apply_filters( 'sensei_breadcrumb_output', $html, $separator );
 		$html .= '</section>';
 
 		echo wp_kses_post( $html );
-	} // End sensei_breadcrumb()
+	}
 
 
 	/**
@@ -828,9 +828,9 @@ class Sensei_Frontend {
 				// Nothing.
 				break;
 
-		} // End Switch Statement
+		}
 
-	} // End sensei_complete_lesson()
+	}
 
 	/**
 	 * Redirect to the next lesson, if applicable.
@@ -896,7 +896,7 @@ class Sensei_Frontend {
 						foreach ( $course_lesson_ids as $lesson_item_id ) {
 							// Mark lesson as complete.
 							$activity_logged = Sensei_Utils::sensei_start_lesson( $lesson_item_id, $current_user->ID, true );
-						} // End For Loop
+						}
 
 						// Update with final stats.
 						$course_metadata = array(
@@ -912,7 +912,7 @@ class Sensei_Frontend {
 							// translators: Placeholder is the Course title.
 							. sprintf( __( '%1$s marked as complete.', 'sensei-lms' ), get_the_title( $sanitized_course_id ) )
 							. '</div></header>';
-					} // End If Statement
+					}
 
 					break;
 
@@ -940,19 +940,21 @@ class Sensei_Frontend {
 				default:
 					// Nothing.
 					break;
-			} // End Switch Statement
-		} // End If Statement
-	} // End sensei_complete_course()
+			}
+		}
+	}
 
 	/**
 	 * Gets the quiz answers for the current user.
 	 *
-	 * @deprecated use Sensei_Quiz::get_user_answers
+	 * @deprecated 3.10.0 use Sensei_Quiz::get_user_answers
 	 * @param int $lesson_id Lesson ID.
 	 * @return array Quiz answers for the current user.
 	 */
 	public function sensei_get_user_quiz_answers( $lesson_id = 0 ) {
 		global $current_user;
+
+		_deprecated_function( __METHOD__, '3.10.0', 'Sensei_Quiz::get_user_answers' );
 
 		$user_answers = array();
 
@@ -976,7 +978,7 @@ class Sensei_Frontend {
 		}
 
 		return $user_answers;
-	} // End sensei_get_user_quiz_answers()
+	}
 
 	/**
 	 * Checks if a user has completed a lesson.
@@ -995,7 +997,7 @@ class Sensei_Frontend {
 	 */
 	public function sensei_frontend_messages() {
 		Sensei()->notices->maybe_print_notices();
-	} // End sensei_frontend_messages()
+	}
 
 	/**
 	 * Outputs the video for a lesson.
@@ -1008,7 +1010,7 @@ class Sensei_Frontend {
 			if ( 'http' == substr( $lesson_video_embed, 0, 4 ) ) {
 				// V2 - make width and height a setting for video embed.
 				$lesson_video_embed = wp_oembed_get( esc_url( $lesson_video_embed ) );
-			} // End If Statement
+			}
 
 			$lesson_video_embed = do_shortcode( html_entity_decode( $lesson_video_embed ) );
 			$lesson_video_embed = Sensei_Wp_Kses::maybe_sanitize( $lesson_video_embed, $this->allowed_html );
@@ -1017,9 +1019,9 @@ class Sensei_Frontend {
 				?>
 				<div class="video"><?php echo $lesson_video_embed; ?></div>
 				<?php
-			} // End If Statement
-		} // End If Statement
-	} // End sensei_lesson_video()
+			}
+		}
+	}
 
 	/**
 	 * Outputs the "Complete Lesson" button.
@@ -1060,8 +1062,8 @@ class Sensei_Frontend {
 
 			</form>
 			<?php
-		} // End If Statement
-	} // End sensei_complete_lesson_button()
+		}
+	}
 
 	/**
 	 * Outputs the "Reset Lesson" button.
@@ -1116,7 +1118,7 @@ class Sensei_Frontend {
 
 		Sensei_Lesson::footer_quiz_call_to_action();
 
-	} // End sensei_lesson_quiz_meta()
+	}
 
 	public function sensei_course_archive_meta() {
 		// Meta data.
@@ -1140,7 +1142,7 @@ class Sensei_Frontend {
 					?>
 			   <span class="course-author"><?php esc_html_e( 'by', 'sensei-lms' ); ?><?php the_author_link(); ?></span>
 					<?php
-				} // End If Statement
+				}
 				?>
 			   <span class="course-lesson-count"><?php echo esc_html( Sensei()->course->course_lesson_count( $post_id ) ) . '&nbsp;' . esc_html__( 'Lessons', 'sensei-lms' ); ?></span>
 			<?php
@@ -1153,7 +1155,7 @@ class Sensei_Frontend {
 					?>
 				</span>
 				<?php
-			} // End If Statement
+			}
 
 			/**
 			 * Fires after course meta is displayed.
@@ -1175,7 +1177,7 @@ class Sensei_Frontend {
 			<?php } ?>
 		</section>
 		<?php
-	} // End sensei_course_archive_meta()
+	}
 
 	/**
 	 * @deprecated since 1.9.0
@@ -1229,7 +1231,7 @@ class Sensei_Frontend {
 
 					</article>
 
-				<?php } // End While Loop ?>
+				<?php }?>
 
 			</section>
 
@@ -1242,9 +1244,9 @@ class Sensei_Frontend {
 			</p>
 
 			<?php
-		} // End If Statement
+		}
 
-	} // End sensei_course_category_main_content()
+	}
 
 	public function sensei_login_form() {
 		/*
@@ -1318,7 +1320,7 @@ class Sensei_Frontend {
 		</div>
 
 		<?php
-	} // End sensei_login_form()
+	}
 
 	public function sensei_lesson_meta( $post_id = 0 ) {
 		if ( 0 < intval( $post_id ) ) {
@@ -1346,7 +1348,7 @@ class Sensei_Frontend {
 			<p class="lesson-excerpt"><?php the_excerpt(); ?></p>
 		</section>
 			<?php
-		} // End If Statement
+		}
 	} // sensei_lesson_meta()
 
 	public function sensei_lesson_preview_title_text( $course_id ) {
@@ -1426,9 +1428,9 @@ class Sensei_Frontend {
 
 					<?php
 				}
-			} // End If Statement
-		} // End If Statement
-	} // End sensei_course_start()
+			}
+		}
+	}
 
 	/**
 	 * @deprecated since 1.9.0
@@ -1464,12 +1466,12 @@ class Sensei_Frontend {
 		}
 
 		Sensei_WC::course_in_cart_message();
-	} // End sensei_woocommerce_in_cart_message()
+	}
 
 	// Deprecated.
 	public function sensei_lesson_comment_count( $count ) {
 		return $count;
-	} // End sensei_lesson_comment_count()
+	}
 
 	/**
 	 * Only show excerpts for lessons and courses in search results.
@@ -1490,7 +1492,7 @@ class Sensei_Frontend {
 		}
 
 		return $content;
-	} // End sensei_search_results_excerpt()
+	}
 
 	/**
 	 * Remove active course when an order is refunded or cancelled.
@@ -1526,7 +1528,7 @@ class Sensei_Frontend {
 		}
 
 		\Sensei_WC_Paid_Courses\Courses::instance()->activate_purchased_courses( $user_id );
-	} // End activate_purchased_courses()
+	}
 
 	/**
 	 * Activate single course if already purchases.
@@ -1542,7 +1544,7 @@ class Sensei_Frontend {
 		}
 
 		\Sensei_WC_Paid_Courses\Courses::instance()->activate_purchased_single_course();
-	} // End activate_purchased_single_course()
+	}
 
 	/**
 	 * Hide Sensei activity comments from frontend (requires WordPress 4.0+).
@@ -1557,7 +1559,7 @@ class Sensei_Frontend {
 		}
 
 		return $args;
-	} // End hide_sensei_activity()
+	}
 
 	/**
 	 * Redirect failed login attempts to the front end login page
@@ -1584,7 +1586,7 @@ class Sensei_Frontend {
 			wp_redirect( esc_url_raw( add_query_arg( 'login', 'failed', $referrer ) ) );
 			exit;
 		}
-	}//end sensei_login_fail_redirect()
+	}
 
 	/**
 	 * Handle the login reques from all sensei intiated login forms.
@@ -1668,13 +1670,13 @@ class Sensei_Frontend {
 					wp_redirect( esc_url_raw( $success_redirect_url ) );
 					exit;
 
-				}   // end is_wp_error($user)
+				}
 			} else { // if username or password is empty.
 
 				wp_redirect( esc_url_raw( add_query_arg( 'login', 'emptyfields', $referrer ) ) );
 				exit;
 
-			} // end if username $_REQUEST['log']  and password $_REQUEST['pwd'] is empty
+			}
 		} elseif ( ( isset( $_GET['login'] ) ) ) {
 			// else if this request is a redircect from a previously faile login request.
 			$this->login_message_process();
@@ -1686,7 +1688,7 @@ class Sensei_Frontend {
 		// if none of the above.
 		return;
 
-	} // End  sensei_login_fail_redirect_to_front_end_login
+	}
 
 	/**
 	 * Handles Sensei specific registration requests.
@@ -1788,7 +1790,7 @@ class Sensei_Frontend {
 		wp_redirect( apply_filters( 'sensei_registration_redirect', $redirect ) );
 		exit;
 
-	} // end  sensei_process_registration)()
+	}
 
 	/**
 	 * Displays an appropriate message for a failed login attempt.
@@ -1813,9 +1815,9 @@ class Sensei_Frontend {
 
 			Sensei()->notices->add_notice( $message, 'alert' );
 
-	}//end login_message_process()
+	}
 
-} // End Class
+}
 
 /**
  * Class WooThemes_Sensei_Frontend

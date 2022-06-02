@@ -87,7 +87,7 @@ class Sensei_Admin {
 
 		Sensei_Extensions::instance()->init();
 
-	} // End __construct()
+	}
 
 	/**
 	 * Add items to admin menu
@@ -313,7 +313,7 @@ class Sensei_Admin {
 
 		}
 
-	} // End admin_styles_global()
+	}
 
 
 	/**
@@ -1917,7 +1917,7 @@ class Sensei_Admin {
 		// phpcs:enable WordPress.Security.NonceVerification
 	}
 
-} // End Class
+}
 
 /**
  * Legacy Class WooThemes_Sensei_Admin

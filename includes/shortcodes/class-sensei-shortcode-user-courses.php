@@ -322,7 +322,7 @@ class Sensei_Shortcode_User_Courses implements Sensei_Shortcode_Interface {
 
 		return $shortcode_output;
 
-	}//end render()
+	}
 
 	/**
 	 * Add hooks for the shortcode
@@ -412,7 +412,7 @@ class Sensei_Shortcode_User_Courses implements Sensei_Shortcode_Interface {
 
 		return $classes;
 
-	}//end course_status_class_tagging()
+	}
 
 	/**
 	 * Output the course toggle functionality

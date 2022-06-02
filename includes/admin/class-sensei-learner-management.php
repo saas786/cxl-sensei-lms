@@ -82,7 +82,7 @@ class Sensei_Learner_Management {
 
 			add_action( 'admin_notices', array( $this, 'add_learner_notices' ) );
 			$this->bulk_actions_controller = new Sensei_Learners_Admin_Bulk_Actions_Controller( $this );
-		} // End If Statement
+		}
 
 		// Ajax functions.
 		if ( is_admin() ) {
@@ -92,7 +92,7 @@ class Sensei_Learner_Management {
 			add_action( 'wp_ajax_reset_user_post', array( $this, 'reset_user_post' ) );
 			add_action( 'wp_ajax_sensei_json_search_users', array( $this, 'json_search_users' ) );
 		}
-	} // End __construct()
+	}
 
 	/**
 	 * Add learner management menu.
@@ -106,7 +106,7 @@ class Sensei_Learner_Management {
 			add_action( "load-$learners_page", array( $this, 'load_screen_options_when_on_bulk_actions' ) );
 		}
 
-	} // End learners_admin_menu()
+	}
 
 	/**
 	 * Sets the pagination screen option value for the Bulk Learner Actions table.
@@ -180,7 +180,7 @@ class Sensei_Learner_Management {
 		);
 
 		wp_localize_script( 'sensei-learners-general', 'woo_learners_general_data', $data );
-	} // End enqueue_scripts()
+	}
 
 	/**
 	 * Enqueue styles.
@@ -193,7 +193,7 @@ class Sensei_Learner_Management {
 
 		wp_enqueue_style( 'sensei-jquery-ui', Sensei()->plugin_url . 'assets/css/jquery-ui.css', '', Sensei()->version );
 
-	} // End enqueue_styles()
+	}
 
 	/**
 	 * Loads dependent files.
@@ -209,9 +209,9 @@ class Sensei_Learner_Management {
 		);
 		foreach ( $classes_to_load as $class_file ) {
 			Sensei()->load_class( $class_file );
-		} // End For Loop
+		}
 
-	} // End load_data_table_files()
+	}
 
 	/**
 	 * Creates new instance of class.
@@ -229,12 +229,12 @@ class Sensei_Learner_Management {
 			$sensei_learners_object = new $object_name( $data );
 		} else {
 			$sensei_learners_object = new $object_name( $data, $optional_data );
-		} // End If Statement
+		}
 		if ( 'Main' === $name ) {
 			$sensei_learners_object->prepare_items();
-		} // End If Statement
+		}
 		return $sensei_learners_object;
-	} // End load_data_object()
+	}
 
 	/**
 	 * Outputs the content for the Learner Management page.
@@ -274,7 +274,7 @@ class Sensei_Learner_Management {
 		<?php
 		do_action( 'learners_wrapper_container', 'bottom' );
 		do_action( 'learners_after_container' );
-	} // End learners_default_view()
+	}
 
 	/**
 	 * Outputs the breadcrumb.
@@ -288,7 +288,7 @@ class Sensei_Learner_Management {
 		$this->$function();
 		do_action( 'sensei_learners_after_headers' );
 
-	} // End learners_headers()
+	}
 
 	/**
 	 * Wrapper for Learners area.
@@ -305,8 +305,8 @@ class Sensei_Learner_Management {
 			?>
 			</div><!--/#woothemes-sensei-->
 			<?php
-		} // End If Statement
-	} // End wrapper_container()
+		}
+	}
 
 	/**
 	 * Default nav area for Learners.
@@ -349,7 +349,7 @@ class Sensei_Learner_Management {
 				| <a href="<?php echo esc_attr( $this->bulk_actions_controller->get_url() ); ?>"><?php echo esc_html( $this->bulk_actions_controller->get_name() ); ?></a></h1>
 			</h1>
 		<?php
-	} // End learners_default_nav()
+	}
 
 	/**
 	 * Filters table by course category.
@@ -717,7 +717,7 @@ class Sensei_Learner_Management {
 		return $this->name;
 	}
 
-} // End Class
+}
 
 /**
  * Class WooThemes_Sensei_Learners
