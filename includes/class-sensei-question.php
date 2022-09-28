@@ -28,7 +28,7 @@ class Sensei_Question {
 		$this->meta_fields    = array( 'question_right_answer', 'question_wrong_answers' );
 		if ( is_admin() ) {
 			// Custom Write Panel Columns
-			add_filter( 'manage_edit-question_columns', array( $this, 'add_column_headings' ), 10, 1 );
+			add_filter( 'manage_edit-question_columns', array( $this, 'add_column_headings' ), 20, 1 );
 			add_action( 'manage_posts_custom_column', array( $this, 'add_column_data' ), 10, 2 );
 			add_action( 'add_meta_boxes', array( $this, 'question_edit_panel_metabox' ), 10, 2 );
 
@@ -56,15 +56,16 @@ class Sensei_Question {
 	}
 
 	/**
-	 * Add column headings to the "lesson" post list screen.
+	 * Add column headings to the "question" post list screen,
+	 * while moving the existing ones to the end.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  1.3.0
-	 * @param  array $defaults
-	 * @return array $new_columns
+	 * @param  array $defaults  Array of column header labels keyed by column ID.
+	 * @return array            Updated array of column header labels keyed by column ID.
 	 */
 	public function add_column_headings( $defaults ) {
-		$new_columns                      = array();
+		$new_columns                      = [];
 		$new_columns['cb']                = '<input type="checkbox" />';
 		$new_columns['title']             = _x( 'Question', 'column name', 'sensei-lms' );
 		$new_columns['question-type']     = _x( 'Type', 'column name', 'sensei-lms' );
@@ -73,8 +74,20 @@ class Sensei_Question {
 			$new_columns['date'] = $defaults['date'];
 		}
 
+		// Unset renamed existing columns.
+		unset( $defaults['taxonomy-question-type'] );
+		unset( $defaults['taxonomy-question-category'] );
+
+		// Add all remaining columns at the end.
+		foreach ( $defaults as $column_key => $column_value ) {
+			if ( ! isset( $new_columns[ $column_key ] ) ) {
+				$new_columns[ $column_key ] = $column_value;
+			}
+		}
+
 		return $new_columns;
-	} // End add_column_headings()
+	}
+
 
 	/**
 	 * Add data for our newly-added custom columns.
@@ -1254,6 +1267,54 @@ class Sensei_Question {
 		return apply_filters( 'sensei_questions_get_correct_answer', $right_answer, $question_id );
 
 	} // get_correct_answer
+
+	/**
+	 * Get answers by ID keys.
+	 *
+	 * @param string[] $answers Answers string.
+	 *
+	 * @return string[] Answers with the correct ID keys.
+	 */
+	public function get_answers_by_id( $answers = [] ) {
+		$answers_by_id = [];
+
+		foreach ( $answers as $answer ) {
+			$answers_by_id[ Sensei()->lesson->get_answer_id( $answer ) ] = $answer;
+		}
+
+		return $answers_by_id;
+	}
+
+	/**
+	 * Get answers sorted.
+	 *
+	 * @param string[]        $answers      Answers string by ID.
+	 * @param string[]|string $answer_order Sorted answers IDs.
+	 *
+	 * @return string[] The sorted answers.
+	 */
+	public function get_answers_sorted( $answers, $answer_order ) {
+		$answers_sorted = [];
+
+		if ( is_string( $answer_order ) ) {
+			$answer_order = explode( ',', $answer_order );
+		}
+
+		foreach ( $answer_order as $answer_id ) {
+			if ( isset( $answers[ $answer_id ] ) ) {
+				$answers_sorted[ $answer_id ] = $answers[ $answer_id ];
+				unset( $answers[ $answer_id ] );
+			}
+		}
+
+		if ( count( $answers ) > 0 ) {
+			foreach ( $answers as $id => $answer ) {
+				$answers_sorted[ $id ] = $answer;
+			}
+		}
+
+		return $answers_sorted;
+	}
 
 	/**
 	 * Log an event when a question is initially published.

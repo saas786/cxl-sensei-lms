@@ -53,7 +53,7 @@ class Sensei_Course {
 			add_action( 'save_post', array( $this, 'meta_box_save' ) );
 
 			// Custom Write Panel Columns
-			add_filter( 'manage_course_posts_columns', array( $this, 'add_column_headings' ), 10, 1 );
+			add_filter( 'manage_course_posts_columns', array( $this, 'add_column_headings' ), 20, 1 );
 			add_action( 'manage_course_posts_custom_column', array( $this, 'add_column_data' ), 10, 2 );
 
 			// Enqueue scripts.
@@ -516,7 +516,7 @@ class Sensei_Course {
 				$html     .= '<a href="'
 					. esc_url( get_edit_post_link( $post_item->ID ) )
 					. '" title="'
-					// translators: Placeholder is the Lesson title.
+					// translators: Placeholder is the item title/name.
 					. esc_attr( sprintf( __( 'Edit %s', 'sensei-lms' ), $post_item->post_title ) )
 					. '" data-course-status="' . esc_attr( $post->post_status )
 					. '" class="edit-lesson-action">'
@@ -594,15 +594,16 @@ class Sensei_Course {
 	}
 
 	/**
-	 * Add column headings to the "lesson" post list screen.
+	 * Add column headings to the "course" post list screen,
+	 * while moving the existing ones to the end.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  1.0.0
-	 * @param  array $defaults
-	 * @return array $new_columns
+	 * @param  array $defaults  Array of column header labels keyed by column ID.
+	 * @return array            Updated array of column header labels keyed by column ID.
 	 */
 	public function add_column_headings( $defaults ) {
-		$new_columns                        = array();
+		$new_columns                        = [];
 		$new_columns['cb']                  = '<input type="checkbox" />';
 		$new_columns['title']               = _x( 'Course Title', 'column name', 'sensei-lms' );
 		$new_columns['course-prerequisite'] = _x( 'Pre-requisite Course', 'column name', 'sensei-lms' );
@@ -611,8 +612,27 @@ class Sensei_Course {
 			$new_columns['date'] = $defaults['date'];
 		}
 
+		// Make sure other sensei columns stay directly behind the new columns.
+		$other_sensei_columns = [
+			'taxonomy-module',
+			'teacher',
+			'module_order',
+		];
+		foreach ( $other_sensei_columns as $column_key ) {
+			if ( isset( $defaults[ $column_key ] ) ) {
+				$new_columns[ $column_key ] = $defaults[ $column_key ];
+			}
+		}
+
+		// Add all remaining columns at the end.
+		foreach ( $defaults as $column_key => $column_value ) {
+			if ( ! isset( $new_columns[ $column_key ] ) ) {
+				$new_columns[ $column_key ] = $column_value;
+			}
+		}
+
 		return $new_columns;
-	} // End add_column_headings()
+	}
 
 	/**
 	 * Add data for our newly-added custom columns.
@@ -635,7 +655,7 @@ class Sensei_Course {
 					echo '<a href="'
 						. esc_url( get_edit_post_link( absint( $course_prerequisite_id ) ) )
 						. '" title="'
-						// translators: Placeholder is the title of the course prerequisite.
+						// translators: Placeholder is the item title/name.
 						. esc_attr( sprintf( __( 'Edit %s', 'sensei-lms' ), get_the_title( absint( $course_prerequisite_id ) ) ) )
 						. '">'
 						. esc_html( get_the_title( absint( $course_prerequisite_id ) ) )
@@ -1640,8 +1660,8 @@ class Sensei_Course {
 			$no_active_message   = __( 'You have no active courses.', 'sensei-lms' );
 			$no_complete_message = __( 'You have not completed any courses yet.', 'sensei-lms' );
 		} else {
-			$no_active_message   = __( 'This learner has no active courses.', 'sensei-lms' );
-			$no_complete_message = __( 'This learner has not completed any courses yet.', 'sensei-lms' );
+			$no_active_message   = __( 'This student has no active courses.', 'sensei-lms' );
+			$no_complete_message = __( 'This student has not completed any courses yet.', 'sensei-lms' );
 		}
 
 		ob_start();

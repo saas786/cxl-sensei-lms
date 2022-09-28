@@ -63,7 +63,7 @@ class Sensei_Learner_Management {
 	 * @param string $file Main plugin file name.
 	 */
 	public function __construct( $file ) {
-		$this->name      = __( 'Learner Management', 'sensei-lms' );
+		$this->name      = __( 'Student Management', 'sensei-lms' );
 		$this->file      = $file;
 		$this->page_slug = 'sensei_learners';
 
@@ -130,7 +130,7 @@ class Sensei_Learner_Management {
 		if ( isset( $this->bulk_actions_controller ) && $this->bulk_actions_controller->is_current_page() ) {
 
 			$args = array(
-				'label'   => __( 'Learners per page', 'sensei-lms' ),
+				'label'   => __( 'Students per page', 'sensei-lms' ),
 				'default' => 20,
 				'option'  => self::SENSEI_LEARNER_MANAGEMENT_PER_PAGE,
 			);
@@ -176,7 +176,7 @@ class Sensei_Learner_Management {
 			'search_users_nonce'         => wp_create_nonce( 'search-users' ),
 			'edit_date_nonce'            => wp_create_nonce( 'edit_date_nonce' ),
 			'course_category_nonce'      => wp_create_nonce( 'course_category_nonce' ),
-			'selectplaceholder'          => __( 'Select Learner', 'sensei-lms' ),
+			'selectplaceholder'          => __( 'Select students to manually enroll...', 'sensei-lms' ),
 		);
 
 		wp_localize_script( 'sensei-learners-general', 'woo_learners_general_data', $data );

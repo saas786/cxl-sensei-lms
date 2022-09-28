@@ -54,10 +54,9 @@ class Sensei_Class_Lesson_Test extends WP_UnitTestCase {
 	 */
 	public function testIsPreRequisiteComplete() {
 
-		// does this function add_user_data exist?
 		$this->assertTrue(
 			method_exists( 'WooThemes_Sensei_Lesson', 'is_prerequisite_complete' ),
-			'The lesson class function `is_prerequisite_complete` does not exist '
+			'The lesson class method `is_prerequisite_complete` does not exist '
 		);
 
 		// falsy state
@@ -99,17 +98,89 @@ class Sensei_Class_Lesson_Test extends WP_UnitTestCase {
 
 	}
 
+	/**
+	 * Verify if the method get_course_id returns the expected course ID.
+	 *
+	 * @covers Sensei_Lesson::get_course_id
+	 */
+	public function testGetCourseId() {
+		$this->assertTrue(
+			method_exists( 'WooThemes_Sensei_Lesson', 'get_course_id' ),
+			'The lesson class method `get_course_id` does not exist '
+		);
+		$expected_course_id = $this->factory->course->create();
+		$lesson_id          = $this->factory->lesson->create();
+		update_post_meta( $lesson_id, '_lesson_course', $expected_course_id );
+		$course_id = Sensei()->lesson->get_course_id( $lesson_id );
+		$this->assertEquals(
+			$expected_course_id,
+			$course_id,
+			"Lesson {$lesson_id} has course ID {$course_id}, expected {$expected_course_id}"
+		);
+	}
+
+	/**
+	 * Verify if the method get_course_ids returns the same result as get_course_id, while also verifying
+	 * if it is being cached properly.
+	 *
+	 * @covers Sensei_Lesson::get_course_ids
+	 */
+	public function testGetCourseIds() {
+		$this->assertTrue(
+			method_exists( 'WooThemes_Sensei_Lesson', 'get_course_ids' ),
+			'The lesson class method `get_course_ids` does not exist '
+		);
+		$course_ids = $this->factory->course->create_many( 3 );
+		$lesson_ids = $this->factory->lesson->create_many( 9 );
+		foreach ( $lesson_ids as $lesson_id_index => $lesson_id ) {
+			$course_index = $lesson_id_index % count( $course_ids );
+			$course_id    = $course_ids[ $course_index ];
+			update_post_meta( $lesson_id, '_lesson_course', $course_id );
+		}
+		$result_courses_id = Sensei()->lesson->get_course_ids( $lesson_ids );
+		foreach ( $lesson_ids as  $lesson_id_index => $lesson_id ) {
+			$expected_course_index = $lesson_id_index % count( $course_ids );
+			$expected_course_id    = $course_ids[ $expected_course_index ];
+			$course_id             = $result_courses_id[ $lesson_id ];
+			$get_course_id_result  = Sensei()->lesson->get_course_id( $lesson_id );
+			$this->assertEquals(
+				$expected_course_id,
+				$course_id,
+				"Lesson with ID {$lesson_id} has course ID {$course_id}, expected {$expected_course_id}"
+			);
+			$this->assertEquals(
+				$get_course_id_result,
+				$course_id,
+				"get_course_ids returned ID {$course_id} for lesson {$lesson_id}, but get_course_id returned {$get_course_id_result}"
+			);
+		}
+		$shuffled_lesson_ids = $lesson_ids;
+		shuffle( $shuffled_lesson_ids );
+		$cached_courses_id = Sensei()->lesson->get_course_ids( $shuffled_lesson_ids );
+		$this->assertEquals( $result_courses_id, $cached_courses_id );
+		foreach ( $lesson_ids as  $lesson_id_index => $lesson_id ) {
+			$expected_course_index = $lesson_id_index % count( $course_ids );
+			$expected_course_id    = $course_ids[ $expected_course_index ];
+			$course_id             = $cached_courses_id[ $lesson_id ];
+			$this->assertEquals(
+				$expected_course_id,
+				$course_id,
+				"Lesson with ID {$lesson_id} has course ID {$course_id}, expected {$expected_course_id}"
+			);
+		}
+	}
+
 	public function testAddLessonToCourseOrderHook() {
 		if ( ! isset( Sensei()->admin ) ) {
 			Sensei()->admin = new WooThemes_Sensei_Admin();
 		}
 		$this->assertTrue(
 			method_exists( 'WooThemes_Sensei_Lesson', 'add_lesson_to_course_order' ),
-			'The lesson class function `add_lesson_to_course_order` does not exist '
+			'The lesson class method `add_lesson_to_course_order` does not exist '
 		);
 
-		$course_id = $this->factory->get_random_course_id();
-		$lessons   = $this->factory->get_lessons();
+		$course_id = $this->factory->course->create();
+		$lessons   = $this->factory->lesson->create_many( 7 );
 
 		$not_a_lesson_post_type              = get_post( $lessons[0], ARRAY_A );
 		$not_a_lesson_post_type['post_type'] = 'post';
@@ -124,9 +195,8 @@ class Sensei_Class_Lesson_Test extends WP_UnitTestCase {
 		$lesson_three_id    = $lessons[4];
 		$ordered_lesson_ids = array( $lesson_one_id, $lesson_two_id, $lesson_three_id );
 
-		$another_lesson_id                         = $lessons[5];
-		$yet_another_lesson_id                     = $lessons[6];
-		$a_lesson_assigned_to_an_invalid_course_id = $lessons[7];
+		$last_lesson_id                            = $lessons[5];
+		$a_lesson_assigned_to_an_invalid_course_id = $lessons[6];
 
 		foreach ( $ordered_lesson_ids as $lesson_id ) {
 			update_post_meta( $lesson_id, '_lesson_course', $course_id );
@@ -146,8 +216,7 @@ class Sensei_Class_Lesson_Test extends WP_UnitTestCase {
 
 		update_post_meta( $not_a_lesson_post_type['ID'], '_lesson_course', $course_id );
 		update_post_meta( $unpublished_lesson['ID'], '_lesson_course', $course_id );
-		update_post_meta( $another_lesson_id, '_lesson_course', $course_id );
-		update_post_meta( $yet_another_lesson_id, '_lesson_course', $course_id );
+		update_post_meta( $last_lesson_id, '_lesson_course', $course_id );
 		update_post_meta( $a_lesson_assigned_to_an_invalid_course_id, '_lesson_course', -123 );
 
 		Sensei()->lesson->add_lesson_to_course_order( null );
@@ -185,31 +254,21 @@ class Sensei_Class_Lesson_Test extends WP_UnitTestCase {
 			'Only lesson post types are added course order meta'
 		);
 
-		Sensei()->lesson->add_lesson_to_course_order( $unpublished_lesson['ID'] );
-		$this->assertFalse(
-			in_array( $unpublished_lesson, self::get_course_lesson_order( $course_id ) ),
-			'Only published lessons are added to course order meta'
-		);
-
-		Sensei()->lesson->add_lesson_to_course_order( $another_lesson_id );
-		$this->assertTrue(
-			in_array( $another_lesson_id, self::get_course_lesson_order( $course_id ) ),
-			'A new lesson should be added to the course order meta'
-		);
-		$this->assertEquals( 4, count( self::get_course_lesson_order( $course_id ) ) );
-
-		Sensei()->lesson->add_lesson_to_course_order( $another_lesson_id );
-		$this->assertTrue(
-			in_array( $another_lesson_id, self::get_course_lesson_order( $course_id ) ),
-			'A lesson should not be added to the course order meta twice'
-		);
-		$this->assertEquals( 4, count( self::get_course_lesson_order( $course_id ) ) );
-
-		Sensei()->lesson->add_lesson_to_course_order( $yet_another_lesson_id );
-		$this->assertEquals( 5, count( self::get_course_lesson_order( $course_id ) ) );
+		Sensei()->lesson->add_lesson_to_course_order( $last_lesson_id );
 		$last_order = self::get_course_lesson_order( $course_id );
-		$last_id    = array_pop( $last_order );
-		$this->assertEquals( $yet_another_lesson_id, $last_id, 'by default new lessons are added last' );
+		$this->assertTrue(
+			in_array( $last_lesson_id, self::get_course_lesson_order( $course_id ) ),
+			'All course lessons should be added to the course order meta'
+		);
+		$this->assertEquals( 5, count( $last_order ) );
+
+		$this->assertTrue(
+			in_array( $unpublished_lesson['ID'], self::get_course_lesson_order( $course_id ) ),
+			'Unpublished lessons are also added to course order meta'
+		);
+
+		$last_id = array_pop( $last_order );
+		$this->assertEquals( $last_lesson_id, $last_id, 'by default new lessons are added last' );
 
 		Sensei()->lesson->add_lesson_to_course_order( $a_lesson_assigned_to_an_invalid_course_id );
 		$this->assertEquals( 5, count( self::get_course_lesson_order( $course_id ) ), 'do nothing on lessons where no order meta is found' );
@@ -443,4 +502,68 @@ class Sensei_Class_Lesson_Test extends WP_UnitTestCase {
 		return array_map( 'intval', $order_string_array );
 	}
 
-}//end class
+	/**
+	 * Tests that Sensei_Lesson::find_first_prerequisite_lesson returns the first lesson that needs to get completed in
+	 * a prerequisite chain.
+	 *
+	 * @covers Sensei_Lesson::find_first_prerequisite_lesson
+	 */
+	public function testFirstPrerequisiteIsCorrect() {
+		$user_id             = $this->factory->user->create();
+		$course_with_lessons = $this->factory->get_course_with_lessons(
+			[
+				'module_count'   => 2,
+				'lesson_count'   => 5,
+				'question_count' => 0,
+			]
+		);
+
+		$first_lesson = Sensei()->lesson::find_first_prerequisite_lesson( $course_with_lessons['lesson_ids'][4], $user_id );
+		$this->assertEquals( 0, $first_lesson, 'Result should be 0 when there are not prerequisites to the lesson.' );
+
+		update_post_meta( $course_with_lessons['lesson_ids'][4], '_lesson_prerequisite', $course_with_lessons['lesson_ids'][3] );
+		update_post_meta( $course_with_lessons['lesson_ids'][3], '_lesson_prerequisite', $course_with_lessons['lesson_ids'][2] );
+		update_post_meta( $course_with_lessons['lesson_ids'][2], '_lesson_prerequisite', $course_with_lessons['lesson_ids'][1] );
+		update_post_meta( $course_with_lessons['lesson_ids'][1], '_lesson_prerequisite', $course_with_lessons['lesson_ids'][0] );
+
+		$first_lesson = Sensei()->lesson::find_first_prerequisite_lesson( $course_with_lessons['lesson_ids'][4], $user_id );
+		$this->assertEquals( $course_with_lessons['lesson_ids'][0], $first_lesson, 'Result not equal with the first lesson in the prerequisite chain.' );
+
+		$first_lesson = Sensei()->lesson::find_first_prerequisite_lesson( $course_with_lessons['lesson_ids'][2], $user_id );
+		$this->assertEquals( $course_with_lessons['lesson_ids'][0], $first_lesson, 'Result not equal with the first lesson in the prerequisite chain.' );
+
+		// Complete a lesson in the prerequisite chain and observe that the next one is returned.
+		Sensei_Utils::user_start_lesson( $user_id, $course_with_lessons['lesson_ids'][1], true );
+		$first_lesson = Sensei()->lesson::find_first_prerequisite_lesson( $course_with_lessons['lesson_ids'][4], $user_id );
+		$this->assertEquals( $course_with_lessons['lesson_ids'][2], $first_lesson, 'Result not equal with the third lesson when user has completed the second.' );
+	}
+
+	/**
+	 * Test get lesson quiz permalink.
+	 *
+	 * @covers Sensei_Lesson::get_quiz_permalink()
+	 */
+	public function testGetLessonQuizPermalink() {
+		$lesson_id_empty_quiz = $this->factory->get_lesson_empty_quiz();
+		$this->assertNull( Sensei()->lesson->get_quiz_permalink( $lesson_id_empty_quiz ) );
+
+		$lesson_id_with_quiz = $this->factory->get_lesson_with_quiz_and_questions();
+		$this->assertNotEmpty( Sensei()->lesson->get_quiz_permalink( $lesson_id_with_quiz ) );
+	}
+
+	/**
+	 * Test quiz submitted.
+	 *
+	 * @covers Sensei_Lesson::is_quiz_submitted()
+	 */
+	public function testQuizSubmitted() {
+		$lesson_id = $this->factory->get_random_lesson_id();
+		$quiz_id   = Sensei()->lesson->lesson_quizzes( $lesson_id );
+		$user_id   = $this->factory->user->create();
+
+		$this->assertFalse( Sensei()->lesson->is_quiz_submitted( $lesson_id, $user_id ) );
+
+		Sensei_Quiz::submit_answers_for_grading( [], [], $lesson_id, $user_id );
+		$this->assertTrue( Sensei()->lesson->is_quiz_submitted( $lesson_id, $user_id ) );
+	}
+}
